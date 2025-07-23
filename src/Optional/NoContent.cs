@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Toarnbeike.Optional;
 
@@ -10,4 +11,5 @@ namespace Toarnbeike.Optional;
 /// Not intended for use outside the <see cref="Toarnbeike.Optional"/> namespace.
 /// </remarks>
 [EditorBrowsable(EditorBrowsableState.Never)]
+[ExcludeFromCodeCoverage(Justification = "Not publicly used.")]
 public sealed record NoContent;

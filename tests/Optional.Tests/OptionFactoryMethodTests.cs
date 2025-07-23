@@ -1,6 +1,4 @@
-﻿using Shouldly;
-
-namespace Toarnbeike.Optional.Tests;
+﻿namespace Toarnbeike.Optional.Tests;
 
 public class OptionFactoryMethodTests
 {

@@ -1,5 +1,5 @@
 ﻿[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+![Build](https://github.com/toarnbeike/toarnbeike.optional/actions/workflows/build.yml/badge.svg)
 [![NuGet](https://img.shields.io/nuget/v/Toarnbeike.Optional.svg)](https://www.nuget.org/packages/Toarnbeike.Optional)
 
 ⚠️ This library is currently under active development and subject to change.
@@ -23,9 +23,9 @@ Toarnbeike.Optional draws inspiration from the following projects and authors:
 
 - Simple API for creating and consuming optional values
 - Implicit conversion operators from values and `Option.None`
+- Extensions for working with collections of Option&lt;T&gt;  
 - [Upcoming] Extension methods following functional conventions (F#, Haskell)
-- [Upcoming] Support for asynchronous operations returning Option<T>  
-- [Upcoming] Extensions for working with collections of Option<T>  
+- [Upcoming] Support for asynchronous operations returning Option&lt;T&gt;
 - [Planned] Integration with unit testing frameworks (e.g., Shouldly)
  
 ## Syntax
@@ -50,6 +50,55 @@ if (option.TryGetValue(out string value))
 {
 	Console.WriteLine(value); // Outputs: Hello
 }
+```
+
+## Collections
+To work with collections of options, the library provides extension methods that allow you to manipulate sequences of `Option<T>` in a functional style.
+
+### Working with `IEnumerable<Option<T>>`
+
+The `Toarnbeike.Optional.Collections` namespace provided LINQ-like utilities for sequences of `Option<T>`, making it easier to work with collections of optional values.
+
+#### Available Methods
+
+
+| Method									| Description																					|
+|-------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `Values()`								| Returns a sequence of all values contained in the options, excluding `None`					|
+| `WhereValues(predicate)`					| Filters the options, returning only those that contain a value								|
+| `SelectValues(map)`						| Projects each option to the result of the map function, otherwise omitting the entry			|
+| `CountValues()`/`CountValues(predicate)`	| Returns the number of present values, optionally matching a predicate							|
+| `AnyValues()`/`AnyValues(predicate)`		| Returns a boolean indicating if there is any present value, optionally matching a predicate	|
+| `AllValues()`/`AllValues(predicate)`		| Returns a boolean indicating if all values are present, optionally matching a predicate		|
+| `FirstOrNone()`/`FirstOrNone(predicate)`	| Returns the first matching present value, optionally matching a predicate, or `Option.None`	|
+| `LastOrNone()`/`LastOrNone(predicate)`	| Returns the last matching present value, optionally matching a predicate, or `Option.None`	|
+
+#### Example Usage
+
+```csharp
+using Toarnbeike.Optional.Collections;
+
+var options = new List<Option<int>>([1, Option.None, 3]);
+
+var values = options.Values();					// [1, 3]
+var filtered = options.WhereValues(i => i > 1);			// [3]
+var doubled = options.SelectValues(i = > i * 2);		// [2,6] 
+var evenCount = options.CountValues(i => i % 2 == 0);		// Option.None
+var first = options.FirstOrNone(i => i > 2);			// 3 (as Option<int>)
+var last = options.LastOrNone(i => i > 0);			// 3 (as Option<int>)
+```
+
+These helpers reduce boilerplate when working with `IEnumerable<Option<T>>` and follow familiar LINQ conventions.
+
+### Bonus: Extensions on regular `IEnumerable<T>`
+
+You can also use the `Toarnbeike.Optional.Collections` namespace to extend regular `IEnumerable<T>` with similar methods, allowing you to work with collections of regular values as if they were options.
+```csharp
+using Toarnbeike.Optional.Collections;
+var numbers = new List<int> { 1, 2, 3 };
+
+var first = options.FirstOrNone(i => i > 4);			// Option.None
+var last = options.LastOrNone(i => i > 0);			// 3 (as regular int)
 ```
 
 ## Conclusion
