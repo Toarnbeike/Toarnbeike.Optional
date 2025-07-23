@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <RootNamespace>Toarnbeike.$(MSBuildProjectName)</RootNamespace>
+
+    <Company>Toarnbeike</Company>
+    <Authors>Toarnbeike</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Toarnbeike/Toarnbeike.Optional</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
