@@ -82,6 +82,7 @@ The `Toarnbeike.Optional.Extensions` namespace includes rich extensions for `Opt
 | `Map(...)`		| Transforms the inner value 			        |
 | `Bind(...)`		| Chain operations returning `Option<T>`        |
 | `Check(...)`		| Filter by predicate					        |
+| `IsSomeAnd(...)`  | Check if value matches value or predicate     |
 | `Match(...)`      | Pattern match: Some/ None                     |
 | `Reduce(...)`		| Fallback to a value if empty      		    |
 | `ReduceOrThrow()`	| Get value or throw						    |
