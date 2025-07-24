@@ -119,6 +119,25 @@ var last = options.LastOrNone(i => i > 0);			// 3 (as regular int)
 
 ---
 
+## Try Helpers
+
+Use `Option.Try(...)` to wrap exception-throwing code like parsing, config loading, etc.  
+Returns `Option.None` when an exception occurs (with optional filtering and logging).
+
+```csharp
+var result = Option.Try(() => int.Parse("123")); // Option.Some(123)
+var fallback = Option.Try(() => int.Parse("abc")); // Option.None
+
+// With optional filtering and logging
+var parsed = Option.Try(
+    () => int.Parse("abc"),
+    ex => ex is FormatException,
+    ex => logger.Warn(ex, "Invalid number")
+);
+```
+
+---
+
 ## Why Option?
 Because nulls are dangerous and exceptions are control-flow.
 Using Option<T>:

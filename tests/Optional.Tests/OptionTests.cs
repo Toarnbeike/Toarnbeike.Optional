@@ -1,6 +1,6 @@
 ﻿namespace Toarnbeike.Optional.Tests;
 
-public class OptionOfTValueTests
+public class OptionTests
 {
     private const string _testValue = "test";
 
