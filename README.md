@@ -1,6 +1,6 @@
 ﻿[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![CI](https://github.com/Toarnbeike/Toarnbeike.Optional/actions/workflows/build.yaml/badge.svg)
-![Code Coverage](https://toarnbeike.github.io/Toarnbeike.Optional/badge_linecoverage.svg)
+[![Code Coverage](https://toarnbeike.github.io/Toarnbeike.Optional/badge_shieldsio_linecoverage_brightgreen.svg)](https://github.com/Toarnbeike/Toarnbeike.Optional/blob/gh-pages/SummaryGithub.md)
 
 # Toarnbeike.Optional
 
