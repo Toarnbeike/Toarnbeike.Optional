@@ -75,18 +75,19 @@ if (option1.TryGetValue(out var value))
 The `Toarnbeike.Optional.Extensions` namespace includes rich extensions for `Option<T>`:
 
 ### Available Extensions
-| Method			| Description								|
-|-------------------|-------------------------------------------|
-| `AsNullable()`	| Convert to nullable						|
-| `AsOption()`		| Convert from nullable						|
-| `Map(...)`		| Transforms the inner value 			    |
-| `Bind(...)`		| Chain operations returning `Option<T>`    |
-| `Check(...)`		| Filter by predicate					    |
-| `Match(...)`      | Pattern match: Some/ None                 |
-| `Reduce(...)`		| Fallback to default (provided) value		|
-| `ReduceOrThrow()`	| Get value or throw						|
-| `Tap(...)`		| Execute side-effect on value				|
-| `TapIfNone()`		| Execute side-effect when empty            |
+| Method			| Description								    |
+|-------------------|-----------------------------------------------|
+| `AsNullable()`	| Convert to nullable						    |
+| `AsOption()`		| Convert from nullable						    |
+| `Map(...)`		| Transforms the inner value 			        |
+| `Bind(...)`		| Chain operations returning `Option<T>`        |
+| `Check(...)`		| Filter by predicate					        |
+| `Match(...)`      | Pattern match: Some/ None                     |
+| `Reduce(...)`		| Fallback to a value if empty      		    |
+| `ReduceOrThrow()`	| Get value or throw						    |
+| `OrElse(...)`    	| Return current option or fallback if `None`   |
+| `Tap(...)`		| Execute side-effect on value				    |
+| `TapIfNone()`		| Execute side-effect when empty                |
 
 ---
 
