@@ -1,8 +1,5 @@
 ﻿[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Build](https://github.com/toarnbeike/toarnbeike.optional/actions/workflows/build.yml/badge.svg)
-[![NuGet](https://img.shields.io/nuget/v/Toarnbeike.Optional.svg)](https://www.nuget.org/packages/Toarnbeike.Optional)
-
-⚠️ This library is under **active development** and may evolve over time.
 
 # Toarnbeike.Optional
 
@@ -17,11 +14,19 @@ It improves code clarity and safety by making the **absence of a value explicit*
 
 - Fluent API for working with optional values
 - Implicit conversion from values and `Option.None`
-- Extension methods inspired by F# and Haskell
+- Extension methods inspired by F#, Rust and Haskell
 - Full support for `Task<Option<T>>` async scenarios
 - Rich LINQ-style extensions for `IEnumerable<Option<T>>`
+- Assertion syntax similar to Shouldly for test projects
 - [Planned] Linq integration (query syntax)
-- [Planned] Integration with assertion libraries like Shouldly
+
+---
+
+## Packages
+| Package                               | Description                                           | NuGet                                                                                                                                                 |
+|---------------------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+|`Toarnbeike.Optional`                  | Core option type, extension methods and collections   | [![NuGet](https://img.shields.io/nuget/v/Toarnbeike.Optional.svg)](https://www.nuget.org/packages/Toarnbeike.Optional)                                |
+|`Toarnbeike.Optional.TestExtensions`   | Assertion helpers for `Option<T>` in tests            | [![NuGet](https://img.shields.io/nuget/v/Toarnbeike.Optional.TestExtensions.svg)](https://www.nuget.org/packages/Toarnbeike.Optional.TestExtensions)  |
 
 ---
 
@@ -134,6 +139,34 @@ var parsed = Option.Try(
     ex => ex is FormatException,
     ex => logger.Warn(ex, "Invalid number")
 );
+```
+
+---
+
+## Optional.TestExtensions 
+
+`Toarnbeike.Optional.TestExtensions` provides simple assertion methods to improve test readability for `Option<T>` instances.
+
+### Example
+
+```csharp
+Option<string> option = Option.Some("value");
+option.ShouldBeSomeWithValue("value");
+```
+
+### Available Assertions
+
+| Method                            | Description                                           |
+|-----------------------------------|-------------------------------------------------------|
+| `ShouldBeSome(...)`               | Asserts that the option is `Some`                     |
+| `ShouldBeSomeWithValue(...)`      | Asserts `Some` and compares value with expected.      |
+| `ShouldBeSomeThatMatches(...)`    | Asserts `Some` and applies a predicate to the value.  |
+| `ShouldBeSomeThatSatisfies(...)`  | Asserts `Some` and applies an additional assertion.   |
+| `ShouldBeNone(...)`               | Asserts that the option is `None.`                    |
+
+### Installation
+``` bash
+dotnet add package Toarnbeike.Optional.TestExtensions
 ```
 
 ---
