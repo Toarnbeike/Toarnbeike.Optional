@@ -1,5 +1,6 @@
 ﻿[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Build](https://github.com/toarnbeike/toarnbeike.optional/actions/workflows/build.yml/badge.svg)
+![CI](https://github.com/Toarnbeike/Toarnbeike.Optional/actions/workflows/build.yaml/badge.svg)
+![Code Coverage](https://toarnbeike.github.io/Toarnbeike.Optional/badge_linecoverage.svg)
 
 # Toarnbeike.Optional
 

@@ -35,8 +35,9 @@ jobs:
           targetdir: 'coveragereport'
           reporttypes: 'MarkdownSummaryGithub;Badges'
 
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4
+      - name: Deploy coverage report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: coverage-report
-          path: coveragereport
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./coveragereport
+          publish_branch: gh-pages
