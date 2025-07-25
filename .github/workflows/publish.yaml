@@ -25,10 +25,10 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Pack Optional
-        run: dotnet pack src/Toarnbeike.Optional/Toarnbeike.Optional.csproj --configuration Release --no-build --output ./nupkgs
+        run: dotnet pack src/Optional/Toarnbeike.Optional.csproj --configuration Release --no-build --output ./nupkgs
 
       - name: Pack Optional.TestExtensions
-        run: dotnet pack src/Toarnbeike.Optional.TestExtensions/Toarnbeike.Optional.TestExtensions.csproj --configuration Release --no-build --output ./nupkgs
+        run: dotnet pack src/Optional.TestExtensions/Toarnbeike.Optional.TestExtensions.csproj --configuration Release --no-build --output ./nupkgs
 
       - name: Push to NuGet
         run: dotnet nuget push ./nupkgs/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
