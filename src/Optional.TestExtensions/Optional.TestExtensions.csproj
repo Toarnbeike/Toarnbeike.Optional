@@ -2,8 +2,8 @@
 
   <PropertyGroup>
 	<PackageId>Toarnbeike.Optional.TestExtensions</PackageId>
-    <Version>1.0.0</Version>
-    <Description>Fluent testing assertions for Option types</Description>
+	<!-- Version is managed centrally in Directory.build.props to keep versions in sync.-->
+	<Description>Fluent testing assertions for Option types</Description>
     <PackageTags>option test assertions should</PackageTags>
   </PropertyGroup>
 	
@@ -11,4 +11,7 @@
     <ProjectReference Include="..\Optional\Optional.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<None Include="../../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>
