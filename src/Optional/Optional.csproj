@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<PackageId>Toarnbeike.Optional</PackageId>
+	<Version>1.0.0</Version>
+	<Description>Functional-style Option/Maybe implementation for .NET</Description>
+	<PackageTags>option maybe monad functional some none collections</PackageTags>
   </PropertyGroup>
 
 </Project>
