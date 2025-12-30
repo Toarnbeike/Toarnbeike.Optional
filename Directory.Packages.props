@@ -1,0 +1,9 @@
+<Project>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+	<ItemGroup Label="Testsuite">
+		<PackageVersion Include="Shouldly" Version="4.3.0" />
+		<PackageVersion Include="TUnit" Version="1.5.70" />
+	</ItemGroup>
+</Project>

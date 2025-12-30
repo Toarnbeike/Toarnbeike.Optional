@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -10,7 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
 		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
@@ -19,14 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optional", "src\Optional\Op
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optional.Tests", "tests\Optional.Tests\Optional.Tests.csproj", "{ABAA1D35-AD5E-494F-92BA-650D58D800D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optional.TestExtensions", "src\Optional.TestExtensions\Optional.TestExtensions.csproj", "{D2801CAF-4D82-4957-9F22-695E0C06C2FB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Optional.TestExtensions.Tests", "tests\Optional.TestExtensions.Tests\Optional.TestExtensions.Tests.csproj", "{BC57D953-BAA1-4A02-8F52-6FBFE5DCC48E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F18D1825-738D-4B96-B50C-6E718BCB6780}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yaml = .github\workflows\build.yaml
 		.github\workflows\publish.yaml = .github\workflows\publish.yaml
+		.github\workflows\versionCheck.yaml = .github\workflows\versionCheck.yaml
 	EndProjectSection
 EndProject
 Global
@@ -43,14 +42,6 @@ Global
 		{ABAA1D35-AD5E-494F-92BA-650D58D800D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABAA1D35-AD5E-494F-92BA-650D58D800D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABAA1D35-AD5E-494F-92BA-650D58D800D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D2801CAF-4D82-4957-9F22-695E0C06C2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D2801CAF-4D82-4957-9F22-695E0C06C2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D2801CAF-4D82-4957-9F22-695E0C06C2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D2801CAF-4D82-4957-9F22-695E0C06C2FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC57D953-BAA1-4A02-8F52-6FBFE5DCC48E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC57D953-BAA1-4A02-8F52-6FBFE5DCC48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC57D953-BAA1-4A02-8F52-6FBFE5DCC48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC57D953-BAA1-4A02-8F52-6FBFE5DCC48E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,8 +49,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{CCFBC2A4-0FA2-4F51-8005-0CB002E53D29} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{ABAA1D35-AD5E-494F-92BA-650D58D800D2} = {86B8BD71-AAA9-486F-BFAB-60A0499BA08D}
-		{D2801CAF-4D82-4957-9F22-695E0C06C2FB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{BC57D953-BAA1-4A02-8F52-6FBFE5DCC48E} = {86B8BD71-AAA9-486F-BFAB-60A0499BA08D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BB17DE2B-F618-45E9-A884-A4D9D99A309D}

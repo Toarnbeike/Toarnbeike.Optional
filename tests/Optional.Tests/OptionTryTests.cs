@@ -2,7 +2,7 @@
 
 public class OptionTryTests
 {
-    [Fact]
+    [Test]
     public void Try_Should_ReturnSome_WhenFunctionSucceeds()
     {
         var result = Option.Try(() => "success");
@@ -10,21 +10,21 @@ public class OptionTryTests
         value.ShouldBe("success");
     }
 
-    [Fact]
+    [Test]
     public void Try_Should_ReturnNone_WhenFunctionReturnsNull()
     {
         var result = Option.Try(() => (string?)null);
         result.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void Try_Should_ReturnNone_WhenFunctionThrows()
     {
         var result = Option.Try<string>(() => throw new InvalidOperationException("Test exception"));
         result.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void Try_Should_LogException_WhenProvided()
     {
         string? loggedException = null;
@@ -34,7 +34,7 @@ public class OptionTryTests
         loggedException.ShouldBe("Test exception");
     }
 
-    [Fact]
+    [Test]
     public void Try_Should_DoNothingWithLogException_WhenNoExceptionOccurs()
     {
         string? loggedException = null;
@@ -43,14 +43,14 @@ public class OptionTryTests
         loggedException.ShouldBeNull();
     }
 
-    [Fact]
+    [Test]
     public void Try_Should_FilterExceptions_WhenExceptionFilterIsProvided()
     {
         var result = Option.Try<string>(() => throw new InvalidOperationException("Test exception"), ex => ex is InvalidOperationException);
         result.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void Try_Should_RethrowExceptions_WhenExceptionIsNotFiltered()
     {
         Should.Throw<InvalidOperationException>(() =>
@@ -59,7 +59,7 @@ public class OptionTryTests
         });
     }
 
-    [Fact]
+    [Test]
     public async Task TryAsync_Should_ReturnSome_WhenFunctionSucceeds()
     {
         var result = await Option.TryAsync(async () => await Task.FromResult("success"));
@@ -67,21 +67,21 @@ public class OptionTryTests
         value.ShouldBe("success");
     }
 
-    [Fact]
+    [Test]
     public async Task TryAsync_Should_ReturnNone_WhenFunctionReturnsNull()
     {
         var result = await Option.TryAsync(async () => await Task.FromResult((string?)null));
         result.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task TryAsync_Should_ReturnNone_WhenFunctionThrows()
     {
         var result = await Option.TryAsync(ThrowAsyncTask);
         result.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task TryAsync_Should_LogException_WhenProvided()
     {
         string? loggedException = null;
@@ -91,7 +91,7 @@ public class OptionTryTests
         loggedException.ShouldBe("Test exception");
     }
 
-    [Fact]
+    [Test]
     public async Task TryAsync_Should_DoNothingWithLogException_WhenNoExceptionOccurs()
     {
         string? loggedException = null;
@@ -100,14 +100,14 @@ public class OptionTryTests
         loggedException.ShouldBeNull();
     }
 
-    [Fact]
+    [Test]
     public async Task TryAsync_Should_FilterExceptions_WhenExceptionFilterIsProvided()
     {
         var result = await Option.TryAsync(ThrowAsyncTask, ex => ex is InvalidOperationException);
         result.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public async Task TryAsync_Should_RethrowExceptions_WhenExceptionIsNotFiltered()
     {
         await Should.ThrowAsync<InvalidOperationException>(async () => await Option.TryAsync(ThrowAsyncTask, ex => ex is NotImplementedException));

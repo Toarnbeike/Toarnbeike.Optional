@@ -5,13 +5,15 @@ namespace Toarnbeike.Optional;
 
 /// <summary>
 /// Represents an optional value that may or may not be present.
+/// Defaults to None, if created using the default(Option{TValue}) struct constructor.
 /// </summary>
 /// <remarks>The <see cref="Option{TValue}"/> type is a lightweight alternative to nullable types or <see
 /// cref="System.Nullable{T}"/>  for representing optional values. It provides methods and operators for safely handling
 /// the presence or absence of a value. Use <see cref="Some(TValue)"/> to create an instance with a value, and <see
 /// cref="None"/> to create an instance without a value.</remarks>
 /// <typeparam name="TValue">The type of the value contained in the option.</typeparam>
-public sealed class Option<TValue> : IEquatable<Option<TValue>>
+[DebuggerDisplay("{DebuggerToString(),nq}")]
+public readonly record struct Option<TValue>
 {
     /// <summary>
     /// The value of the option if it is present, or null if it is not.
@@ -55,12 +57,12 @@ public sealed class Option<TValue> : IEquatable<Option<TValue>>
     public static implicit operator Option<TValue>(TValue value) => Some(value);
 
     /// <summary>
-    /// Implicitly converts a an <see cref="Option{NoContent}"/> instance to an <see cref="Option{TValue}"/> instance.
+    /// Implicitly converts a an <see cref="Option{Types.None}"/> instance to an <see cref="Option{TValue}"/> instance.
     /// </summary>
-    /// <remarks>This operator allows seamless conversion from <see cref="Option{NoContent}"/> to <see cref="Option{TValue}"/>.
+    /// <remarks>This operator allows seamless conversion from <see cref="Option{Types.None}"/> to <see cref="Option{TValue}"/>.
     /// It is useful for creating an <see cref="Option{TValue}"/> from <see cref="Option.None"/> without providing a <typeparamref name="TValue"/></remarks>
     /// <param name="value">The value to be wrapped in an <see cref="Option{TValue}"/>. Cannot be null.</param>
-    public static implicit operator Option<TValue>(Option<NoContent> _) => _none;
+    public static implicit operator Option<TValue>(Option<Types.None> _) => _none;
 
     /// <summary>
     /// Private constructor such that the option can only be created through the static methods.
@@ -80,8 +82,14 @@ public sealed class Option<TValue> : IEquatable<Option<TValue>>
     /// <returns><see langword="true"/> if the instance contains a value; otherwise, <see langword="false"/>.</returns>
     public bool TryGetValue([NotNullWhen(true)] out TValue? value)
     {
-        value = _value!;
-        return HasValue;
+        if (HasValue)
+        {
+            value = _value!;
+            return true;
+        }
+
+        value = default;
+        return false;
     }
 
     /// <summary>
@@ -92,66 +100,7 @@ public sealed class Option<TValue> : IEquatable<Option<TValue>>
     public bool EqualValue(TValue other) => HasValue && EqualityComparer<TValue>.Default.Equals(_value, other);
 
     /// <summary>
-    /// Override the ToString method to return the objects ToString if the Option has a value, and an empty string if not.
-    /// </summary>
-    /// <returns>The result of <c>ToString()</c> on the contained value, or an empty string if no value is present.</returns>
-    public override string ToString() => TryGetValue(out var value) ? value.ToString() ?? typeof(TValue).Name : string.Empty;
-
-    /// <summary>
     /// Value for the debugger display, which shows the value if present or a placeholder if not.
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    [ExcludeFromCodeCoverage]
-    private string DebuggerDisplay => TryGetValue(out var value) ? value.ToString() ?? $"Some({typeof(TValue).Name})" : "None";
-
-    #region Equality and comparison
-
-    /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is Option<TValue> other && Equals(other);
-
-    /// <summary>
-    /// Determines whether the current <see cref="Option{TValue}"/> is equal to another <see cref="Option{TValue}"/>.
-    /// </summary>
-    /// <param name="other">The other <see cref="Option{TValue}"/> to compare with.</param>
-    /// <returns><see langword="true"/> if both options are either empty or contain equal values; otherwise, <see langword="false"/>.</returns>
-    public bool Equals(Option<TValue>? other)
-    {
-        if (ReferenceEquals(this, other))
-            return true;
-
-        if (other is null)
-            return false;
-
-        if (HasValue != other.HasValue)
-            return false;
-
-        return EqualityComparer<TValue>.Default.Equals(_value, other._value);
-    }
-
-    /// <summary>
-    /// Returns a hash code for the current <see cref="Option{TValue}"/>.
-    /// </summary>
-    /// <remarks>
-    /// If the option has a value, the hash code of the value is returned; otherwise, <c>0</c> is returned.
-    /// </remarks>
-    /// <returns>An integer hash code.</returns>
-    public override int GetHashCode() => TryGetValue(out var value) ? value.GetHashCode() : 0;
-
-    /// <summary>
-    /// Determines whether two <see cref="Option{TValue}"/> instances are equal.
-    /// </summary>
-    /// <param name="left">The first option to compare.</param>
-    /// <param name="right">The second option to compare.</param>
-    /// <returns><see langword="true"/> if both options are equal; otherwise, <see langword="false"/></returns>
-    public static bool operator ==(Option<TValue>? left, Option<TValue>? right) => Equals(left, right);
-
-    /// <summary>
-    /// Determines whether two <see cref="Option{TValue}"/> instances are not equal.
-    /// </summary>
-    /// <param name="left">The first option to compare.</param>
-    /// <param name="right">The second option to compare.</param>
-    /// <returns><see langword="true"/> if the options are not equal; otherwise, <see langword="false"/></returns>
-    public static bool operator !=(Option<TValue>? left, Option<TValue>? right) => !Equals(left, right);
-
-    #endregion
+    private string DebuggerToString() => TryGetValue(out var value) ? value.ToString() ?? $"Some({typeof(TValue).Name})" : "None";
 }
