@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Option is now a readonly record struct for lighter memory footprint.
 - None is added as an explicit type, useful for conversions to `Union<TValue, None>`
 - ConfigureAwait(false) added for all async 
+- Tap and TapIfNone now return the original `Option`, to allow for further chaining.
 - Updated to `.Net10`
 - Added Linq query language support (from ... in ... where ... select)
 - Updated test suite to use TUnit

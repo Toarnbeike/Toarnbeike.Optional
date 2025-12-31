@@ -9,26 +9,30 @@ public static class TapExtensions
         /// Execute an action with the value of the option if a value is present.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public void Tap(Action<TValue> action)
+        public Option<TValue> Tap(Action<TValue> action)
         {
             ArgumentNullException.ThrowIfNull(action);
             if (option.TryGetValue(out var value))
             {
                 action(value);
             }
+
+            return option;
         }
 
         /// <summary>
         /// Execute an action with the value of the option if a value is present.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public async Task TapAsync(Func<TValue, Task> action)
+        public async Task<Option<TValue>> TapAsync(Func<TValue, Task> action)
         {
             ArgumentNullException.ThrowIfNull(action);
             if (option.TryGetValue(out var value))
             {
                 await action(value).ConfigureAwait(false);
             }
+
+            return option;
         }
     }
 
@@ -39,20 +43,20 @@ public static class TapExtensions
         /// Execute an action with the value of the option if a value is present.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public async Task Tap(Action<TValue> action)
+        public async Task<Option<TValue>> Tap(Action<TValue> action)
         {
             var option = await optionTask.ConfigureAwait(false);
-            option.Tap(action);
+            return option.Tap(action);
         }
 
         /// <summary>
         /// Execute an action with the value of the option if a value is present.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public async Task TapAsync(Func<TValue, Task> action)
+        public async Task<Option<TValue>> TapAsync(Func<TValue, Task> action)
         {
             var option = await optionTask.ConfigureAwait(false);
-            await option.TapAsync(action).ConfigureAwait(false);
+            return await option.TapAsync(action).ConfigureAwait(false);
         }
     }
 }

@@ -9,26 +9,30 @@ public static class TapIfNoneExtensions
         /// Execute an action if the option has no value.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public void TapIfNone(Action action)
+        public Option<TValue> TapIfNone(Action action)
         {
             ArgumentNullException.ThrowIfNull(action);
             if (!option.HasValue)
             {
                 action();
             }
+
+            return option;
         }
 
         /// <summary>
         /// Execute an action if the option has no value.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public async Task TapIfNoneAsync(Func<Task> action)
+        public async Task<Option<TValue>> TapIfNoneAsync(Func<Task> action)
         {
             ArgumentNullException.ThrowIfNull(action);
             if (!option.HasValue)
             {
                 await action().ConfigureAwait(false);
             }
+
+            return option;
         }
     }
 
@@ -39,20 +43,20 @@ public static class TapIfNoneExtensions
         /// Execute an action if the option has no value.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public async Task TapIfNone(Action action)
+        public async Task<Option<TValue>> TapIfNone(Action action)
         {
             var option = await optionTask.ConfigureAwait(false);
-            option.TapIfNone(action);
+            return option.TapIfNone(action);
         }
 
         /// <summary>
         /// Execute an action if the option has no value.
         /// </summary>
         /// <param name="action">The action to perform.</param>
-        public async Task TapIfNoneAsync(Func<Task> action)
+        public async Task<Option<TValue>> TapIfNoneAsync(Func<Task> action)
         {
             var option = await optionTask.ConfigureAwait(false);
-            await option.TapIfNoneAsync(action).ConfigureAwait(false);
+            return await option.TapIfNoneAsync(action).ConfigureAwait(false);
         }
     }
 }

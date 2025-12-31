@@ -29,6 +29,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{F47345C9-C006-4E38-90AB-9723AF964779}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Collections.md = docs\Collections.md
+		docs\Extensions.md = docs\Extensions.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
