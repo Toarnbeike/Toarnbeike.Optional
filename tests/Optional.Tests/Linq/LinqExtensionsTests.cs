@@ -1,4 +1,4 @@
-﻿using Toarnbeike.Optional.Extensions;
+﻿using Toarnbeike.Optional.Linq;
 using Toarnbeike.Optional.TestExtensions;
 
 namespace Toarnbeike.Optional.Tests.Linq;
