@@ -1,7 +1,7 @@
 ﻿using Toarnbeike.Optional.Extensions;
 using Toarnbeike.Optional.TestExtensions;
 
-namespace Toarnbeike.Optional.Tests.Extensions;
+namespace Toarnbeike.Optional.Tests.Linq;
 
 public class OptionLinqQuerySyntaxTests
 {

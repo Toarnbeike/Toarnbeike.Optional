@@ -1,61 +1,68 @@
 ﻿![CI](https://github.com/Toarnbeike/Toarnbeike.Optional/actions/workflows/build.yaml/badge.svg)
-[![Code Coverage](https://toarnbeike.github.io/Toarnbeike.Optional/badge_shieldsio_linecoverage_brightgreen.svg)](https://github.com/Toarnbeike/Toarnbeike.Optional/blob/gh-pages/SummaryGithub.md)
-[![.NET 9](https://img.shields.io/badge/.NET-9.0-blueviolet.svg)](https://dotnet.microsoft.com/)
+[![.NET 10](https://img.shields.io/badge/.NET-10.0-blueviolet.svg)](https://dotnet.microsoft.com/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 # Toarnbeike.Optional
 
-**Toarnbeike.Optional** is a lightweight, expressive C# implementation of the [Option (Maybe) monad](https://en.wikipedia.org/wiki/Option_type).  
+This package provides a **lightweight and expressive [Option (Maybe) monad](https://en.wikipedia.org/wiki/Option_type) for C#, inspired by functional programming, while remaining idiomatic to the .NET ecosystem.  
 
+An `Option<TValue>` represents a value that can either be there, or be absent, without reling on nulls. 
 It improves code clarity and safety by making the **absence of a value explicit**, replacing null checks and exceptions with a functional approach.
-> Developed by Toarnbeike for personal and professional use in domain-driven and functional designs.
-
----
 
 ## Features
 
 - Fluent API for working with optional values
 - Implicit conversion from values and `Option.None`
-- Extension methods inspired by F#, Rust and Haskell
-- Full support for `Task<Option<T>>` async scenarios
+- Rich functional extensions (Map, Bind, Match, Tap and others)
+- Async support for all extensions
 - Rich LINQ-style extensions for `IEnumerable<Option<T>>`
-- Assertion syntax similar to Shouldly for test projects
-- [Planned] Linq integration (query syntax)
-
----
-
-## Packages
-| Package                               | Description                                           | NuGet                                                                                                                                                 |
-|---------------------------------------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-|`Toarnbeike.Optional`                  | Core option type, extension methods and collections   | [![NuGet](https://img.shields.io/nuget/v/Toarnbeike.Optional.svg)](https://www.nuget.org/packages/Toarnbeike.Optional)                                |
-|`Toarnbeike.Optional.TestExtensions`   | Assertion helpers for `Option<T>` in tests            | [![NuGet](https://img.shields.io/nuget/v/Toarnbeike.Optional.TestExtensions.svg)](https://www.nuget.org/packages/Toarnbeike.Optional.TestExtensions)  |
-
----
-
-## Inspiration
-
-This project draws ideas from:
-- [Zoran Horvat (youtube)](https://www.youtube.com/@zoran-horvat)
-- [nlkl.Optional (github)](https://github.com/nlkl/Optional)
-- [DotnetFunctional.Maybe (github)](https://github.com/dotnetfunctional/Maybe)
+- Linq integration (query syntax)
+- Test extensions for fluent assertions
+- Comprehensive XML documentation and usage examples
+- Unit tested with full code coverage
  
 ---
 
-## Getting Started
-
-```bash
-dotnet add package Toarnbeike.Optional
-```
-Then import the namespace in your code:
-```csharp
-using Toarnbeike.Optional;			// Base namespace for Option<T>
-using Toarnbeike.Optional.Collections;		// For collection extensions
-using Toarnbeike.Optional.Extensions;		// For functional extensions on Option<T>
-```
+## Contents
+1. [Quick start](#quick-start)
+1. [Core concepts](#core-concepts)
+1. [Extensions](#extensions)
+1. [Collections](#collections)
+1. [Linq query syntax](#linq-query-syntax)
+1. [Try helpers](#try-helpers)
+1. [Test extensions](#test-extensions)
+1. [Why Options?](#why-options)
 
 ---
 
-## Basic Usage
+## Quick start
+
+This example demonstrates the most common workflow when using Options: construction, transformation and consumption.
+
+```csharp
+using Toarnbeike.Optional;			
+using Toarnbeike.Optional.Extensions;
+
+Option<string> message = "Hello World!";
+Option<string> missing = Option.None;
+
+// Transform the value
+var messageLength = message.Map(value => value.Length); // Option<int> with value 12
+var newMissing = missing.Map(_ => "Not executed");      // Option<string>, still None.
+
+// Console the value
+Console.WriteLine($"Message had {messageLength.Reduce(0)} characters");    // Message had 12 characters
+Console.WriteLine($"Missing was replaced by: {newMissing.Reduce("Hello")}; // Missing was replaced by: Hello
+```
+
+Key properties of working with Unions:
+- `null` values and nullable notition is replaced with `Option`.
+- Values are never consumed directly, but always using a `Reduce()` to provide an alternative for a missing value.
+- Mapping, binding, etc. leafs the value in an `Option` state, and missing values are still `Option.None`.
+
+---
+
+## Core Concepts
 
 An option can represent either a value (`Some`) or no value (`None`):
 
@@ -82,47 +89,93 @@ if (option1.TryGetValue(out var value))
 The `Toarnbeike.Optional.Extensions` namespace includes rich extensions for `Option<T>`:
 
 ### Available Extensions
-| Method			| Description								    |
-|-------------------|-----------------------------------------------|
-| `AsNullable()`	| Convert to nullable						    |
-| `AsOption()`		| Convert from nullable						    |
-| `Map(...)`		| Transforms the inner value 			        |
-| `Bind(...)`		| Chain operations returning `Option<T>`        |
-| `Check(...)`		| Filter by predicate					        |
-| `IsSomeAnd(...)`  | Check if value matches value or predicate     |
-| `Match(...)`      | Pattern match: Some/ None                     |
-| `Reduce(...)`		| Fallback to a value if empty      		    |
-| `ReduceOrThrow()`	| Get value or throw						    |
-| `OrElse(...)`    	| Return current option or fallback if `None`   |
-| `Tap(...)`		| Execute side-effect on value				    |
-| `TapIfNone()`		| Execute side-effect when empty                |
+| Method			| Returns       | Description								    |
+|-------------------|---------------|-----------------------------------------------|
+| `AsNullable()`	| `T?`          | Convert to nullable						    |
+| `AsOption()`		| `Option<T>`   | Convert from nullable						    |
+| `Map(...)`		| `Option<U>`   | Transforms the inner value 			        |
+| `Bind(...)`		| `Option<U>`   | Chain operations returning `Option<T>`        |
+| `Check(...)`		| `Option<T>`   | Filter by predicate					        |
+| `IsSomeAnd(...)`  | `bool`        | Check if value matches value or predicate     |
+| `Match(...)`      | `U`           | Pattern match: Some/ None                     |
+| `Reduce(...)`		| `T`           | Fallback to a value if empty      		    |
+| `OrElse(...)`    	| `Option<T>`   | Return current option or fallback if `None`   |
+| `Tap(...)`		| `Option<T>`   | Execute side-effect on value				    |
+| `TapIfNone()`		| `Option<T>`   | Execute side-effect when empty                |
+
+All extensions include async overloads and `Task<Union<...>>` variants.
+
+For information per method, see the [Extensions README](docs/Extensions.md).
 
 ---
 
 ## Collections
-The `Toarnbeike.Optional.Collections` namespace adds functional utilities to collections of `Option<T>`:
+The `Toarnbeike.Optional.Collections` namespace contains extension methods to work with `IEnumerable<Option<T>>`:
 
+| Method			  | Returns           | Description								    |
+|---------------------|-------------------|---------------------------------------------|
+| `Values()`          | `IEnumerable<T>`  | Get all non None values.                    |
+| `WhereValues(...)`  | `IEnumerable<T>`  | Get all non None values with predicate      |
+| `SelectValues(...)` | `IEnumerable<U>`  | Get all non None values and apply selector  |
+| `CountValues()`     | `int`             | Get count of non None values                |
+| `AnyValues()`       | `bool`            | Check if collection has any values          |
+| `AllValues()`       | `bool`            | Check if collection contains only values    |
+| `FirstOrNone()`     | `Option<T>`       | Get first non None value in collection      |
+| `LastOrNone()`      | `Option<T>`       | Get last non None value in collection       |
+
+Many of these methods come with predicate overloads to add additional filters, similar to their Linq equivalence.
+
+For information per method, see the [Collections README](docs/Collections.md).
+
+### Collections of T
+
+In addition to extensions on `IEnumerable<Option<T>>`, the `Toarnbeike.Optional.Collections` namespace also contains extension methods that work on `IEnumerable<T>`:
+
+| Method			| Returns       | Description								            |
+|-------------------|---------------|-------------------------------------------------------|
+| `FirstOrNone()`   | `Option<T>`   | Get the first not null instance or return Option.None |
+| `LastOrNone()`    | `Option<T>`   | Get the last not null instance or return Option.None  |
+| `SingleOrNone()`  | `Option<T>`   | Get the only instance or return Option.None           |
+
+All these methods also come with predicate overloads to add additional filters.
+These methods are also described in more detail in the [Collections README](docs/Collections.md).
+
+---
+
+## Linq query syntax
+
+Toarnbeike.Optional supports optional integration with [C# LINQ query syntax](https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/write-linq-queries),
+making it easier to compose multiple `Option<T>` computations in a declarative style.
+
+### Why use LINQ Query Syntax?
+While method chaining works well for most scenarios, C#`s LINQ query syntax can make some workflows more expressive and readable; especially when you want to:
+
+- Name intermediate options using `let`
+- Compose complex Option pipelines in a declarative way
+- Avoid deeply nested lambdas in `Bind` and `Map`
+
+### Example:
 ```csharp
-using Toarnbeike.Optional.Collections;
+using Toarnbeike.Optional.Linq;
 
-var options = new List<Option<int>>([1, Option.None, 3]);
-
-var values = options.Values();					// [1, 3]
-var filtered = options.WhereValues(i => i > 1);			// [3]
-var doubled = options.SelectValues(i = > i * 2);		// [2,6] 
-var evenCount = options.CountValues(i => i % 2 == 0);		// Option.None
-var first = options.FirstOrNone(i => i > 2);			// Option.Some(3)
-var last = options.LastOrNone(i => i > 0);			// Opiton.Some(3)
+var option =
+    from id in GetUserId()
+    from user in GetUserById(id)
+    let fullName = $"{user.FirstName} {user.LastName}"
+    select new UserDto(fullName, user.Email);
 ```
 
-### Also works on `IEnumerable<T>`:
+When comparing that with method chaining, the LINQ query syntax can be more readable, especially for complex workflows:
 ```csharp
-using Toarnbeike.Optional.Collections;
-var numbers = new List<int> { 1, 2, 3 };
-
-var first = options.FirstOrNone(i => i > 4);			// Option.None
-var last = options.LastOrNone(i => i > 0);			// 3 (as regular int)
+var option = GetUserId()
+    .Bind(GetUserById)
+    .Map(user =>
+    {
+        var name = $"{user.FirstName} {user.LastName}";
+        return new UserDto(name, user.Email);
+    });
 ```
+Which also works, but makes name only available inside the `Map` lambda.
 
 ---
 
@@ -145,18 +198,12 @@ var parsed = Option.Try(
 
 ---
 
-## Optional.TestExtensions 
+## Test extensions 
 
-`Toarnbeike.Optional.TestExtensions` provides simple assertion methods to improve test readability for `Option<T>` instances.
+The `Toarnbeike.Optional.TestExtensions` namespace provides simple assertion methods to improve test readability for `Option<T>` instances.
+These methods are Test Framework Agnostic, as they throw a custom `AssertionFailedException`. The naming is inspired by [Shouldly](https://docs.shouldly.org/).
 
-### Example
-
-```csharp
-Option<string> option = Option.Some("value");
-option.ShouldBeSomeWithValue("value");
-```
-
-### Available Assertions
+The following assertions are included:
 
 | Method                            | Description                                           |
 |-----------------------------------|-------------------------------------------------------|
@@ -166,14 +213,9 @@ option.ShouldBeSomeWithValue("value");
 | `ShouldBeSomeThatSatisfies(...)`  | Asserts `Some` and applies an additional assertion.   |
 | `ShouldBeNone(...)`               | Asserts that the option is `None.`                    |
 
-### Installation
-``` bash
-dotnet add package Toarnbeike.Optional.TestExtensions
-```
-
 ---
 
-## Why Option?
+## Why Options?
 Because nulls are dangerous and exceptions are control-flow.
 Using Option<T>:
 

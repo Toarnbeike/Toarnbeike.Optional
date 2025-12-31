@@ -1,4 +1,6 @@
-﻿namespace Toarnbeike.Optional.Extensions;
+﻿using Toarnbeike.Optional.Extensions;
+
+namespace Toarnbeike.Optional.Linq;
 
 /// <summary>
 /// LINQ-style extension methods for Option{T}.
