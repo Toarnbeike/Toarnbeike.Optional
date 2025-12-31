@@ -22,8 +22,11 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
-        public Option<TValue> OrElse(Func<TValue> alternative) =>
-            option.TryGetValue(out var value) ? value : Option.Some(alternative());
+        public Option<TValue> OrElse(Func<TValue> alternative)
+        {
+            ArgumentNullException.ThrowIfNull(alternative);
+            return option.TryGetValue(out var value) ? value : Option.Some(alternative());
+        }
 
         /// <summary>
         /// Replace the value of the <see cref="Option{TValue}"/> with an alternative value if the option is empty.
@@ -32,8 +35,11 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
-        public async Task<Option<TValue>> OrElseAsync(Func<Task<TValue>> alternative) =>
-            option.TryGetValue(out var value) ? value : Option.Some(await alternative().ConfigureAwait(false));
+        public async Task<Option<TValue>> OrElseAsync(Func<Task<TValue>> alternative)
+        {
+            ArgumentNullException.ThrowIfNull(alternative);
+            return option.TryGetValue(out var value) ? value : Option.Some(await alternative().ConfigureAwait(false));
+        }
     }
 
     /// <param name="optionTask">The task that will result in the option to convert.</param>

@@ -14,8 +14,11 @@ public static class IsSomeAndExtensions
         /// <param name="predicate">The predicate to test the option's value.</param>
         /// <returns><see langword="true"/> if the option is <c>Some</c> and the value satisfies <paramref name="predicate"/>; 
         /// otherwise, <see langword="false"/>.</returns>
-        public bool IsSomeAnd(Func<TValue, bool> predicate) =>
-            option.TryGetValue(out var value) && predicate(value);
+        public bool IsSomeAnd(Func<TValue, bool> predicate)
+        {
+            ArgumentNullException.ThrowIfNull(predicate);
+            return option.TryGetValue(out var value) && predicate(value);
+        }
 
         /// <summary>
         /// Determines whether the option is <c>Some</c> and its value satisfies the specified <paramref name="predicate"/>.
@@ -23,8 +26,11 @@ public static class IsSomeAndExtensions
         /// <param name="predicate">The predicate to test the option's value.</param>
         /// <returns><see langword="true"/> if the option is <c>Some</c> and the value satisfies <paramref name="predicate"/>; 
         /// otherwise, <see langword="false"/>.</returns>
-        public async Task<bool> IsSomeAndAsync(Func<TValue, Task<bool>> predicate) =>
-            option.TryGetValue(out var value) && await predicate(value).ConfigureAwait(false);
+        public async Task<bool> IsSomeAndAsync(Func<TValue, Task<bool>> predicate)
+        {
+            ArgumentNullException.ThrowIfNull(predicate);
+            return option.TryGetValue(out var value) && await predicate(value).ConfigureAwait(false);
+        }
     }
 
     /// <param name="optionTask">The task that will result in the option to convert.</param>

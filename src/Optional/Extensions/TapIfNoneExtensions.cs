@@ -11,6 +11,7 @@ public static class TapIfNoneExtensions
         /// <param name="action">The action to perform.</param>
         public void TapIfNone(Action action)
         {
+            ArgumentNullException.ThrowIfNull(action);
             if (!option.HasValue)
             {
                 action();
@@ -23,6 +24,7 @@ public static class TapIfNoneExtensions
         /// <param name="action">The action to perform.</param>
         public async Task TapIfNoneAsync(Func<Task> action)
         {
+            ArgumentNullException.ThrowIfNull(action);
             if (!option.HasValue)
             {
                 await action().ConfigureAwait(false);

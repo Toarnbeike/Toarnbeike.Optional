@@ -11,6 +11,7 @@ public static class TapExtensions
         /// <param name="action">The action to perform.</param>
         public void Tap(Action<TValue> action)
         {
+            ArgumentNullException.ThrowIfNull(action);
             if (option.TryGetValue(out var value))
             {
                 action(value);
@@ -23,6 +24,7 @@ public static class TapExtensions
         /// <param name="action">The action to perform.</param>
         public async Task TapAsync(Func<TValue, Task> action)
         {
+            ArgumentNullException.ThrowIfNull(action);
             if (option.TryGetValue(out var value))
             {
                 await action(value).ConfigureAwait(false);

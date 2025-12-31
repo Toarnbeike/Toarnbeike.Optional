@@ -28,6 +28,8 @@ public static class EnumerableOptionExtensions
         /// <param name="predicate">A function to test each element for a condition.</param>
         public Option<TValue> FirstOrNone(Func<TValue, bool> predicate)
         {
+            ArgumentNullException.ThrowIfNull(predicate);
+
             foreach (var item in source)
             {
                 if (predicate(item))
@@ -66,6 +68,8 @@ public static class EnumerableOptionExtensions
         /// <param name="predicate">A function to test each element for a condition.</param>
         public Option<TValue> LastOrNone(Func<TValue, bool> predicate)
         {
+            ArgumentNullException.ThrowIfNull(predicate);
+
             bool found = false;
             TValue lastMatch = default!;
 

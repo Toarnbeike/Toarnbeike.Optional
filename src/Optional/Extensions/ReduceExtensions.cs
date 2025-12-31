@@ -22,8 +22,11 @@ public static class ReduceExtensions
         /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElseFunction">The function to generate the value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
-        public TValue Reduce(Func<TValue> orElseFunction) =>
-            option.TryGetValue(out var value) ? value : orElseFunction();
+        public TValue Reduce(Func<TValue> orElseFunction)
+        {
+            ArgumentNullException.ThrowIfNull(orElseFunction);
+            return option.TryGetValue(out var value) ? value : orElseFunction();
+        }
 
         /// <summary>
         /// Reduce this to the inner <typeparamref name="TValue"/> by either taking the value or using the provided value.
@@ -32,8 +35,11 @@ public static class ReduceExtensions
         /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElseTask">The task to generate the value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
-        public async Task<TValue> ReduceAsync(Func<Task<TValue>> orElseTask) =>
-            option.TryGetValue(out var value) ? value : await orElseTask().ConfigureAwait(false);
+        public async Task<TValue> ReduceAsync(Func<Task<TValue>> orElseTask)
+        {
+            ArgumentNullException.ThrowIfNull(orElseTask);
+            return option.TryGetValue(out var value) ? value : await orElseTask().ConfigureAwait(false);
+        }
     }
 
     /// <param name="optionTask">The task that will result in the option to convert.</param>

@@ -14,8 +14,12 @@ public static class MatchExtensions
         /// <param name="whenSome">Function to generate the <typeparamref name="TOut"/> when this option has a value.</param>
         /// <param name="whenNone">Function to generate the <typeparamref name="TOut"/> when this option has no value.</param>
         /// <returns>An instance of <typeparamref name="TOut"/> created depending on the status of the option.</returns>
-        public TOut Match<TOut>(Func<TIn, TOut> whenSome, Func<TOut> whenNone) =>
-            option.TryGetValue(out var value) ? whenSome(value) : whenNone();
+        public TOut Match<TOut>(Func<TIn, TOut> whenSome, Func<TOut> whenNone)
+        {
+            ArgumentNullException.ThrowIfNull(whenSome);
+            ArgumentNullException.ThrowIfNull(whenNone);
+            return option.TryGetValue(out var value) ? whenSome(value) : whenNone();
+        }
 
         /// <summary>
         /// Matches the option and produces a value of type <typeparamref name="TOut"/>.
@@ -25,8 +29,12 @@ public static class MatchExtensions
         /// <param name="whenSome">Function to generate the <typeparamref name="TOut"/> when this option has a value.</param>
         /// <param name="whenNone">Function to generate the <typeparamref name="TOut"/> when this option has no value.</param>
         /// <returns>A Task of an instance of <typeparamref name="TOut"/> created depending on the status of the option.</returns>
-        public async Task<TOut> MatchAsync<TOut>(Func<TIn, Task<TOut>> whenSome, Func<Task<TOut>> whenNone) =>
-            option.TryGetValue(out var value) ? await whenSome(value).ConfigureAwait(false) : await whenNone().ConfigureAwait(false);
+        public async Task<TOut> MatchAsync<TOut>(Func<TIn, Task<TOut>> whenSome, Func<Task<TOut>> whenNone)
+        {
+            ArgumentNullException.ThrowIfNull(whenSome);
+            ArgumentNullException.ThrowIfNull(whenNone);
+            return option.TryGetValue(out var value) ? await whenSome(value).ConfigureAwait(false) : await whenNone().ConfigureAwait(false);
+        }
     }
 
     /// <param name="optionTask">The task that will result in the option to convert.</param>
