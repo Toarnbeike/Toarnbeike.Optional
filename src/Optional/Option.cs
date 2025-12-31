@@ -102,5 +102,5 @@ public readonly record struct Option<TValue>
     /// <summary>
     /// Value for the debugger display, which shows the value if present or a placeholder if not.
     /// </summary>
-    private string DebuggerToString() => TryGetValue(out var value) ? value.ToString() ?? $"Some({typeof(TValue).Name})" : "None";
+    private string DebuggerToString() => TryGetValue(out var value) ? $"Some({value})" : "None";
 }

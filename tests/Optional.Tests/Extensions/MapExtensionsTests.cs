@@ -1,4 +1,5 @@
 ﻿using Toarnbeike.Optional.Extensions;
+using Toarnbeike.Optional.TestExtensions;
 
 namespace Toarnbeike.Optional.Tests.Extensions;
 
@@ -29,59 +30,55 @@ public class MapExtensionsTests
     public void Map_Should_ReturnSome_WhenOptionIsSome()
     {
         var result = _some.Map(_selectHalf);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public void Map_Should_ReturnNone_WhenOptionIsNone()
     {
         var result = _none.Map(_selectException);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task MapAsync_Should_ReturnSome_WhenOptionIsSome()
     {
         var result = await _some.MapAsync(_selectHalfAsync);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public async Task MapAsync_Should_ReturnNone_WhenOptionIsNone()
     {
         var result = await _none.MapAsync(_selectExceptionAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task Map_Should_ReturnSome_WhenOptionTaskIsSome()
     {
         var result = await _someAsync.Map(_selectHalf);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public async Task Map_Should_ReturnNone_WhenOptionTaskIsNone()
     {
         var result = await _noneAsync.Map(_selectException);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task MapAsync_Should_ReturnSome_WhenOptionTaskIsSome()
     {
         var result = await _someAsync.MapAsync(_selectHalfAsync);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public async Task MapAsync_Should_ReturnNone_WhenOptionTaskIsNone()
     {
         var result = await _noneAsync.MapAsync(_selectExceptionAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 }

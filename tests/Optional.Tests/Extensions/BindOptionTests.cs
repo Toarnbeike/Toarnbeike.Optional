@@ -1,4 +1,5 @@
 ﻿using Toarnbeike.Optional.Extensions;
+using Toarnbeike.Optional.TestExtensions;
 
 namespace Toarnbeike.Optional.Tests.Extensions;
 
@@ -32,87 +33,83 @@ public class BindOptionTests
     public void Bind_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = _some.Bind(_selectHalf);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public void Bind_Should_ReturnNone_WhenOptionIsSome_AndFuncReturnsNone()
     {
         var result = _some.Bind(_selectNone);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public void Bind_Should_ReturnNone_WhenOptionIsNone()
     {
         var result = _none.Bind(_selectException);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task BindAsync_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = await _some.BindAsync(_selectHalfAsync);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public async Task BindAsync_Should_ReturnNone_WhenOptionIsSome_AndFuncReturnsNone()
     {
         var result = await _some.BindAsync(_selectNoneAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task BindAsync_Should_ReturnNone_WhenOptionIsNone()
     {
         var result = await _none.BindAsync(_selectExceptionAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task Bind_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.Bind(_selectHalf);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public async Task Bind_Should_ReturnNone_WhenOptionTaskIsSome_AndFuncReturnsNone()
     {
         var result = await _someAsync.Bind(_selectNone);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task Bind_Should_ReturnNone_WhenOptionTaskIsNone()
     {
         var result = await _noneAsync.Bind(_selectException);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task BindAsync_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.BindAsync(_selectHalfAsync);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(0.5);
+        result.ShouldBeSomeWithValue(0.5);
     }
 
     [Test]
     public async Task BindAsync_Should_ReturnNone_WhenOptionTaskIsSome_AndFuncReturnsNone()
     {
         var result = await _someAsync.BindAsync(_selectNoneAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task BindAsync_Should_ReturnNone_WhenOptionTaskIsNone()
     {
         var result = await _noneAsync.BindAsync(_selectExceptionAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 }

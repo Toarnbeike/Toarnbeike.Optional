@@ -148,6 +148,26 @@ public class OptionTests
         option1.GetHashCode().ShouldBe(0);
     }
 
+    [Test]
+    public void DebuggerToString_ReturnsExpectedFormat_WhenSome()
+    {
+        var option = Option<string>.Some(_testValue);
+        var type = typeof(Option<string>);
+        var method = type.GetMethod("DebuggerToString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var actual = (string)method!.Invoke(option, null)!;
+        actual.ShouldBe("Some(test)");
+    }
+
+    [Test]
+    public void DebuggerToString_ReturnsExpectedFormat_WhenNone()
+    {
+        var option = Option<string>.None();
+        var type = typeof(Option<string>);
+        var method = type.GetMethod("DebuggerToString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var actual = (string)method!.Invoke(option, null)!;
+        actual.ShouldBe("None");
+    }
+
     /// <summary>
     /// Test class to verify behavior of <see cref="Option{TValue}.ToString()"/> when <c>TValue.ToString()</c> returns <see langword="null"/>.
     /// </summary>

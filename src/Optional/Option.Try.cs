@@ -19,8 +19,11 @@ public static partial class Option
     /// <example>
     /// Option{int} result = Option.Try(() => int.Parse("abc"));
     /// </example>
-    public static Option<TValue> Try<TValue>(Func<TValue> func, Action<Exception>? logException = null) =>
-        Try(func, _ => true, logException);
+    public static Option<TValue> Try<TValue>(Func<TValue> func, Action<Exception>? logException = null)
+    {
+        ArgumentNullException.ThrowIfNull(func);
+        return Try(func, _ => true, logException);
+    }
 
     /// <summary>
     /// Tries to execute the specified function.
@@ -37,14 +40,17 @@ public static partial class Option
     /// <example>
     /// Option&lt;int&gt; result = Option.Try(() => int.Parse("abc"), ex => ex is FormatException);
     /// </example>
-    public static Option<TValue> Try<TValue>(Func<TValue> func, Func<Exception, bool>? catchWhen, Action<Exception>? logException = null)
+    public static Option<TValue> Try<TValue>(Func<TValue> func, Func<Exception, bool> catchWhen, Action<Exception>? logException = null)
     {
+        ArgumentNullException.ThrowIfNull(func);
+        ArgumentNullException.ThrowIfNull(catchWhen);
+
         try
         {
             var result = func();
             return result is not null ? Some(result) : None;
         }
-        catch (Exception ex) when (catchWhen?.Invoke(ex) ?? true)
+        catch (Exception ex) when (catchWhen.Invoke(ex))
         {
             logException?.Invoke(ex);
             return None;
@@ -65,8 +71,11 @@ public static partial class Option
     /// <example>
     /// Option&lt;int&gt; result = Option.Try(() => int.Parse("abc"));
     /// </example>
-    public static async Task<Option<TValue>> TryAsync<TValue>(Func<Task<TValue>> task, Action<Exception>? logException = null) =>
-        await TryAsync(task, _ => true, logException);
+    public static async Task<Option<TValue>> TryAsync<TValue>(Func<Task<TValue>> task, Action<Exception>? logException = null)
+    {
+        ArgumentNullException.ThrowIfNull(task);
+        return await TryAsync(task, _ => true, logException);
+    }
 
     /// <summary>
     /// Tries to execute the specified task.
@@ -85,12 +94,15 @@ public static partial class Option
     /// </example>
     public static async Task<Option<TValue>> TryAsync<TValue>(Func<Task<TValue>> task, Func<Exception, bool> catchWhen, Action<Exception>? logException = null)
     {
+        ArgumentNullException.ThrowIfNull(task);
+        ArgumentNullException.ThrowIfNull(catchWhen);
+
         try
         {
             var result = await task().ConfigureAwait(false);
             return result is not null ? Some(result) : None;
         }
-        catch (Exception ex) when (catchWhen?.Invoke(ex) ?? true)
+        catch (Exception ex) when (catchWhen.Invoke(ex))
         {
             logException?.Invoke(ex);
             return None;

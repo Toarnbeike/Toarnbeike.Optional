@@ -15,15 +15,6 @@ public static class OptionLinqExtensions
         source.Map(selector);
 
     /// <summary>
-    /// Flattens nested options and binds to a new option.
-    /// Enables LINQ's "from ... in ... select" query syntax.
-    /// </summary>
-    public static Option<TResult> SelectMany<TSource, TResult>(
-        this Option<TSource> source,
-        Func<TSource, Option<TResult>> selector) =>
-        source.Bind(selector);
-
-    /// <summary>
     /// Overload for SelectMany to support projection in query expressions.
     /// </summary>
     public static Option<TResult> SelectMany<TSource, TIntermediate, TResult>(

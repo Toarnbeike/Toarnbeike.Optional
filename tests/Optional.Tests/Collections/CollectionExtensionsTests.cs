@@ -1,4 +1,5 @@
 ﻿using Toarnbeike.Optional.Collections;
+using Toarnbeike.Optional.TestExtensions;
 
 namespace Toarnbeike.Optional.Tests.Collections;
 
@@ -183,69 +184,69 @@ public class CollectionExtensionsTests
     public void FirstOrNone_Should_ReturnFirstValue_WhenExists()
     {
         var first = _optionsWithValues.FirstOrNone();
-        first.ShouldBe(Option<int>.Some(1));
+        first.ShouldBeSomeWithValue(1);
     }
 
     [Test]
     public void FirstOrNone_Should_ReturnNone_WhenNoValues()
     {
         var first = _optionsWithoutValues.FirstOrNone();
-        first.ShouldBe(Option<int>.None());
+        first.ShouldBeNone();
     }
 
     [Test]
     public void FirstOrNone_Should_ReturnFirstValue_MatchingPredicate()
     {
         var first = _optionsWithValues.FirstOrNone(_greaterThenTwo);
-        first.ShouldBe(Option<int>.Some(4));
+        first.ShouldBeSomeWithValue(4);
     }
 
     [Test]
     public void FirstOrNone_Should_ReturnNone_WhenNoValuesMatchPredicate()
     {
         var first = _optionsWithValues.FirstOrNone(_noMatches);
-        first.ShouldBe(Option.None);
+        first.ShouldBeNone();
     }
 
     [Test]
     public void FirstOrNone_Should_ReturnNone_WhenNoValues_WithoutCheckingPredicate()
     {
         var first = _optionsWithoutValues.FirstOrNone(_throwingPredicate);
-        first.ShouldBe(Option.None);
+        first.ShouldBeNone();
     }
 
     [Test]
     public void LastOrNone_Should_ReturnLastValue_WhenExists()
     {
         var last = _optionsWithValues.LastOrNone();
-        last.ShouldBe(Option<int>.Some(4));
+        last.ShouldBeSomeWithValue(4);
     }
 
     [Test]
     public void LastOrNone_Should_ReturnNone_WhenNoValues()
     {
         var last = _optionsWithoutValues.LastOrNone();
-        last.ShouldBe(Option<int>.None());
+        last.ShouldBeNone();
     }
 
     [Test]
     public void LastOrNone_Should_ReturnLastValue_MatchingPredicate()
     {
         var last = _optionsWithValues.LastOrNone(_greaterThenTwo);
-        last.ShouldBe(Option<int>.Some(4));
+        last.ShouldBeSomeWithValue(4);
     }
 
     [Test]
     public void LastOrNone_Should_ReturnNone_WhenNoValuesMatchPredicate()
     {
         var last = _optionsWithValues.LastOrNone(_noMatches);
-        last.ShouldBe(Option.None);
+        last.ShouldBeNone();
     }
 
     [Test]
     public void LastOrNone_Should_ReturnNone_WhenNoValues_WithoutCheckingPredicate()
     {
         var last = _optionsWithoutValues.LastOrNone(_throwingPredicate);
-        last.ShouldBe(Option.None);
+        last.ShouldBeNone();
     }
 }

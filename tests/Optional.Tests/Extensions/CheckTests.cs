@@ -1,4 +1,5 @@
 ﻿using Toarnbeike.Optional.Extensions;
+using Toarnbeike.Optional.TestExtensions;
 
 namespace Toarnbeike.Optional.Tests.Extensions;
 
@@ -32,87 +33,83 @@ public class CheckTests
     public void Check_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = _some.Check(_checkTrue);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(1);
+        result.ShouldBeSomeWithValue(1);
     }
 
     [Test]
     public void Check_Should_ReturnNone_WhenOptionIsSome_AndFuncReturnsNone()
     {
         var result = _some.Check(_checkFalse);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public void Check_Should_ReturnNone_WhenOptionIsNone()
     {
         var result = _none.Check(_checkException);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task CheckAsync_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = await _some.CheckAsync(_checkTrueAsync);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(1);
+        result.ShouldBeSomeWithValue(1);
     }
 
     [Test]
     public async Task CheckAsync_Should_ReturnNone_WhenOptionIsSome_AndFuncReturnsNone()
     {
         var result = await _some.CheckAsync(_checkFalseAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task CheckAsync_Should_ReturnNone_WhenOptionIsNone()
     {
         var result = await _none.CheckAsync(_checkExceptionAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task Check_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.Check(_checkTrue);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(1);
+        result.ShouldBeSomeWithValue(1);
     }
 
     [Test]
     public async Task Check_Should_ReturnNone_WhenOptionTaskIsSome_AndFuncReturnsNone()
     {
         var result = await _someAsync.Check(_checkFalse);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task Check_Should_ReturnNone_WhenOptionTaskIsNone()
     {
         var result = await _noneAsync.Check(_checkException);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task CheckAsync_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.CheckAsync(_checkTrueAsync);
-        result.TryGetValue(out var value).ShouldBeTrue();
-        value.ShouldBe(1);
+        result.ShouldBeSomeWithValue(1);
     }
 
     [Test]
     public async Task CheckAsync_Should_ReturnNone_WhenOptionTaskIsSome_AndFuncReturnsNone()
     {
         var result = await _someAsync.CheckAsync(_checkFalseAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 
     [Test]
     public async Task CheckAsync_Should_ReturnNone_WhenOptionTaskIsNone()
     {
         var result = await _noneAsync.CheckAsync(_checkExceptionAsync);
-        result.ShouldBe(Option.None);
+        result.ShouldBeNone();
     }
 }
