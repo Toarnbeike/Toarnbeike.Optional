@@ -12,7 +12,7 @@ public static partial class Option
     /// Useful when a generic <see cref="Option{TValue}"/> is expected but no value is provided.
     /// Enables shorthand conversion using an implicit operator to <see cref="Option{TValue}"/>.
     /// </remarks>
-    public static Option<NoContent> None => Option<NoContent>.None();
+    public static Option<Types.None> None => Option<Types.None>.None();
 
     /// <summary>
     /// Creates an <see cref="Option{TValue}"/> containing the specified non-null value.

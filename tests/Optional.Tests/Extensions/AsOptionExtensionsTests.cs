@@ -17,7 +17,7 @@ public class AsOptionExtensionsTests
     private readonly Task<int?> _someValueAsync = Task.FromResult<int?>(1);
     private readonly Task<int?> _noneValueAsync = Task.FromResult<int?>(null);
 
-    [Fact]
+    [Test]
     public void AsOption_Should_ReturnSome_WhenStringIsNotNull()
     {
         var result = _some.AsOption();
@@ -25,14 +25,14 @@ public class AsOptionExtensionsTests
         value.ShouldBe("abc");
     }
 
-    [Fact]
+    [Test]
     public void AsOption_Should_ReturnNone_WhenStringIsNull()
     {
         var result = _none.AsOption();
         result.ShouldBe(Option.None);
     }
 
-    [Fact]
+    [Test]
     public async Task AsOptionAsync_Should_ReturnSome_WhenStringIsNotNull()
     {
         var result = await _someAsync.AsOption();
@@ -40,14 +40,14 @@ public class AsOptionExtensionsTests
         value.ShouldBe("abc");
     }
 
-    [Fact]
+    [Test]
     public async Task AsOptionAsync_Should_ReturnNone_WhenStringIsNull()
     {
         var result = await _noneAsync.AsOption();
         result.ShouldBe(Option.None);
     }
 
-    [Fact]
+    [Test]
     public void AsOption_Should_ReturnSome_WhenIntIsNotNull()
     {
         var result = _someValue.AsOption();
@@ -55,14 +55,14 @@ public class AsOptionExtensionsTests
         value.ShouldBe(0);
     }
 
-    [Fact]
+    [Test]
     public void AsOption_Should_ReturnNone_WhenIntIsNull()
     {
         var result = _noneValue.AsOption();
         result.ShouldBe(Option.None);
     }
 
-    [Fact]
+    [Test]
     public async Task AsOptionAsync_Should_ReturnSome_WhenIntIsNotNull()
     {
         var result = await _someValueAsync.AsOption();
@@ -70,7 +70,7 @@ public class AsOptionExtensionsTests
         value.ShouldBe(1);
     }
 
-    [Fact]
+    [Test]
     public async Task AsOptionAsync_Should_ReturnNone_WhenIntIsNull()
     {
         var result = await _noneValueAsync.AsOption();

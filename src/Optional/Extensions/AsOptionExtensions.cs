@@ -12,5 +12,5 @@ public static class AsOptionExtensions
     /// Converts a nullable object to an <see cref="Option{TValue}"/>.
     /// </summary>
     public static async Task<Option<TValue>> AsOption<TValue>(this Task<TValue?> task) =>
-        AsOption(await task);
+        AsOption(await task.ConfigureAwait(false));
 }

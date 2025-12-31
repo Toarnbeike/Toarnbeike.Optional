@@ -2,17 +2,17 @@
 
 public class OptionFactoryMethodTests
 {
-    [Fact]
+    [Test]
     public void None_Should_ReturnOptionWithNoContent()
     {
         var option = Option.None;
 
-        option.ShouldBeOfType<Option<NoContent>>();
+        option.ShouldBeOfType<Option<Types.None>>();
         option.HasValue.ShouldBeFalse();
         option.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void None_Should_ImplicitlyConvertToOptionOfTValue()
     {
         Option<string> option = Option.None;
@@ -21,7 +21,7 @@ public class OptionFactoryMethodTests
         option.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void Some_Should_CreateOptionWithValue()
     {
         var option = Option.Some("test");

@@ -17,7 +17,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore dependencies
         run: dotnet restore
@@ -25,19 +25,17 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
-      - name: Run Tests
-        run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage"
+      - name: Run TUnit Tests
+        run: |
+          # Run the TUnit test executable and capture output
+          dotnet run --project tests/Optional.Tests/Optional.Tests.csproj --configuration Release | tee tunit_output.log
 
-      - name: Report Coverage
-        uses: danielpalme/ReportGenerator-GitHub-Action@5
-        with:
-          reports: '**/coverage.cobertura.xml'
-          targetdir: 'coveragereport'
-          reporttypes: 'MarkdownSummaryGithub;Badges'
+          # Fail the job if any tests failed
+          grep -q "failed: 0" tunit_output.log || exit 1
 
-      - name: Deploy coverage report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload Test Output
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./coveragereport
-          publish_branch: gh-pages
+          name: tunit-output
+          path: tunit_output.log
