@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides factory methods for working with <see cref="Option{TValue}"/> instances.
 /// </summary>
-public static partial class Option
+public static class Option
 {
     /// <summary>
     /// Gets an <see cref="Option{NoContent}"/> instance representing the absence of a value.

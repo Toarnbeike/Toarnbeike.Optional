@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 - Extensions.IsSomeAnd that test for TValue. Where obsolete since 1.1.0 (#13)
 
+### Added
+- Introduced `Toarnbeike.Results.Abstractions` for source generator abstractions (#16)
+- Added `Optional.Abstractions.Tests`, multitargeting .net472 (for netStandard2.0) and net10 for testing the abstractions. (#16)
+
 ### Depricated
 - Extensions.IsSomeAnd that test for Predicate. Use `TextExtensions.ShouldBeSome()` for assertions, and `Reduce()` or `Match()` when closing the `Option<>` Monad. (#13)
 - Extensions.OrElse. Use `Reduce()` for normal use cases, convert back to `Option.Some` if nessesary. (#17)
