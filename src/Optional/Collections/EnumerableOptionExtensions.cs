@@ -36,6 +36,7 @@ public static class EnumerableOptionExtensions
                     return item;
                 }
             }
+
             return Option.None;
         }
 
@@ -44,19 +45,17 @@ public static class EnumerableOptionExtensions
         /// </summary>
         public Option<TValue> LastOrNone()
         {
-            using var enumerator = source.GetEnumerator();
-            if (!enumerator.MoveNext())
-            {
-                return Option<TValue>.None();
-            }
+            ArgumentNullException.ThrowIfNull(source);
 
-            TValue last = enumerator.Current;
-            while (enumerator.MoveNext())
+            return source switch
             {
-                last = enumerator.Current;
-            }
-
-            return Option<TValue>.Some(last);
+                // Fast path: IList<T>
+                IList<TValue> list => list.Count > 0 ? list[^1] : Option.None,
+                // Fast path: IReadOnlyList<T>
+                IReadOnlyList<TValue> roList => roList.Count > 0 ? roList[^1] : Option.None,
+                // Fallback:
+                _ => LastOrNoneFromIEnumerable(source)
+            };
         }
 
         /// <summary>
@@ -65,21 +64,80 @@ public static class EnumerableOptionExtensions
         /// <param name="predicate">A function to test each element for a condition.</param>
         public Option<TValue> LastOrNone(Func<TValue, bool> predicate)
         {
+            ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(predicate);
 
-            bool found = false;
-            TValue lastMatch = default!;
-
-            foreach (var item in source)
+            return source switch
             {
-                if (predicate(item))
-                {
-                    lastMatch = item;
-                    found = true;
-                }
-            }
-
-            return found ? lastMatch : Option.None;
+                // Fast path: IList<T> (reverse iteration)
+                IList<TValue> list => LastOrNoneFromList(list, predicate),
+                // Fast path: IReadOnlyList<T> (reverse iteration)
+                IReadOnlyList<TValue> roList => LastOrNoneFromReadOnlyList(roList, predicate),
+                // Fallback
+                _ => LastOrNoneFromIEnumerable(source, predicate)
+            };
         }
+    }
+
+    private static Option<TValue> LastOrNoneFromList<TValue>(IList<TValue> list, Func<TValue, bool> predicate)
+    {
+        for (var i = list.Count - 1; i >= 0; i--)
+        {
+            var item = list[i];
+            if (predicate(item))
+            {
+                return item;
+            }
+        }
+
+        return Option.None;
+    }
+
+    private static Option<TValue> LastOrNoneFromReadOnlyList<TValue>(IReadOnlyList<TValue> roList, Func<TValue, bool> predicate)
+    {
+        for (var i = roList.Count - 1; i >= 0; i--)
+        {
+            var item = roList[i];
+            if (predicate(item))
+            {
+                return item;
+            }
+        }
+
+        return Option.None;
+    }
+
+    private static Option<TValue> LastOrNoneFromIEnumerable<TValue>(IEnumerable<TValue> enumerable)
+    {
+        using var enumerator = enumerable.GetEnumerator();
+        if (!enumerator.MoveNext())
+        {
+            return Option.None;
+        }
+
+        var last = enumerator.Current;
+        while (enumerator.MoveNext())
+        {
+            last = enumerator.Current;
+        }
+
+        return last;
+    }
+
+    private static Option<TValue> LastOrNoneFromIEnumerable<TValue>(IEnumerable<TValue> enumerable, Func<TValue, bool> predicate)
+    {
+        var found = false;
+        TValue lastMatch = default!;
+
+        foreach (var item in enumerable)
+        {
+            if (predicate(item))
+            {
+                lastMatch = item;
+                found = true;
+            }
+        }
+
+        return found ? lastMatch : Option.None;
     }
 }
