@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - CollectionExtensions.LastOrNone use optimized path for IList and IReadOnlyList (#1)
+- Cleaned README.md and moved linq description to separate doc
+
+### Tooling
+- Migrated to .slnx solution file (#14)
 
 ## [1.1.0] - 2025-12-31
 
