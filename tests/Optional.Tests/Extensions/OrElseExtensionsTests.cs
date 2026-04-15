@@ -1,4 +1,4 @@
-﻿using Toarnbeike.Optional.Extensions;
+﻿using Toarnbeike.Optional.Extensions.Obsolete;
 using Toarnbeike.Optional.TestExtensions;
 
 namespace Toarnbeike.Optional.Tests.Extensions;
@@ -6,6 +6,7 @@ namespace Toarnbeike.Optional.Tests.Extensions;
 /// <summary>
 /// Tests for the <see cref="OrElseExtensions"/>
 /// </summary>
+[Obsolete("Provides little benefit and can be replaced by Option.Some(option.Reduce(alternative))")]
 public class OrElseExtensionsTests
 {
     private readonly Option<int> _some = 1;

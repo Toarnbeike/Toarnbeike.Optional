@@ -1,4 +1,4 @@
-﻿namespace Toarnbeike.Optional.Extensions;
+﻿namespace Toarnbeike.Optional.Extensions.Obsolete;
 
 public static class OrElseExtensions
 {
@@ -12,6 +12,7 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
+        [Obsolete("Provides little benefit and can be replaced by Option.Some(option.Reduce(alternative))")]
         public Option<TValue> OrElse(TValue alternative) =>
             option.TryGetValue(out var value) ? value : Option.Some(alternative);
 
@@ -22,6 +23,7 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
+        [Obsolete("Provides little benefit and can be replaced by Option.Some(option.Reduce(alternative))")]
         public Option<TValue> OrElse(Func<TValue> alternative)
         {
             ArgumentNullException.ThrowIfNull(alternative);
@@ -35,6 +37,7 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
+        [Obsolete("Provides little benefit and can be replaced by Option.Some(option.Reduce(alternative))")]
         public async Task<Option<TValue>> OrElseAsync(Func<Task<TValue>> alternative)
         {
             ArgumentNullException.ThrowIfNull(alternative);
@@ -52,6 +55,7 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
+        [Obsolete("Provides little benefit and can be replaced by Option.Some(option.Reduce(alternative))")]
         public async Task<Option<TValue>> OrElse(TValue alternative)
         {
             var option = await optionTask.ConfigureAwait(false);
@@ -65,6 +69,7 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
+        [Obsolete("Provides little benefit and can be replaced by Option.Some(option.Reduce(alternative))")]
         public async Task<Option<TValue>> OrElse(Func<TValue> alternative)
         {
             var option = await optionTask.ConfigureAwait(false);
@@ -78,6 +83,7 @@ public static class OrElseExtensions
         /// a <see cref="Option{TValue}"/> rather then a <typeparamref name="TValue"/>.</remarks>
         /// <param name="alternative">The value to use if this is empty.</param>
         /// <returns> The current Option if it has a value; otherwise an Option containing the alternative value. </returns>
+        [Obsolete("Provides little benefit and can be replaced by Option.Some(option.Reduce(alternative))")]
         public async Task<Option<TValue>> OrElseAsync(Func<Task<TValue>> alternative)
         {
             var option = await optionTask.ConfigureAwait(false);

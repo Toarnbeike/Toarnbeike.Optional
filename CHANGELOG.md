@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Depricated
 - Extensions.IsSomeAnd that test for Predicate. Use `TextExtensions.ShouldBeSome()` for assertions, and `Reduce()` or `Match()` when closing the `Option<>` Monad. (#13)
+- Extensions.OrElse. Use `Reduce()` for normal use cases, convert back to `Option.Some` if nessesary. (#17)
 - Option.Try. Use `Result.Try` from `Toarnbeike.Results` to retain failure information. (#13)
 - TestExtensions.ShouldBeSomeWithValue(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
 - TestExtensions.ShouldBeSomeThatMatches(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
@@ -18,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 - CollectionExtensions.LastOrNone use optimized path for IList and IReadOnlyList (#1)
-- Cleaned README.md and moved linq description to separate doc
+- Cleaned README.md and moved linq description to separate doc (#15)
 
 ### Tooling
 - Migrated to .slnx solution file (#14)
