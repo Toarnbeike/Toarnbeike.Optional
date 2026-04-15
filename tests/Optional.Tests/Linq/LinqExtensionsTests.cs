@@ -14,7 +14,7 @@ public class OptionLinqQuerySyntaxTests
             from y in Option.Some(x * 2)
             select y + 1;
 
-        result.ShouldBeSomeWithValue(21);
+        result.ShouldBeSome().ShouldBe(21);
     }
 
     [Test]

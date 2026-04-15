@@ -5,6 +5,7 @@ namespace Toarnbeike.Optional.Tests.Extensions;
 /// <summary>
 /// Tests for the <see cref="IsSomeAndExtensions"/>
 /// </summary>
+[Obsolete("Will be removed in the next version. Use TextExtensions.ShouldBeSome() for assertions, and Reduce() or Match() when closing the Option<> Monad.")]
 public class IsSomeAndExtensionsTests
 {
     private readonly Option<int> _some = 1;
@@ -12,27 +13,6 @@ public class IsSomeAndExtensionsTests
 
     private readonly Task<Option<int>> _someAsync = Task.FromResult(Option.Some(1));
     private readonly Task<Option<int>> _noneAsync = Task.FromResult(Option<int>.None());
-
-    [Test]
-    [Obsolete("Tested code has become obsolete")]
-    public void IsSomeAnd_ShouldReturnTrue_WhenOptionIsSomeAndValueMatches()
-    {
-        _some.IsSomeAnd(1).ShouldBeTrue();
-    }
-
-    [Test]
-    [Obsolete("Tested code has become obsolete")]
-    public void IsSomeAnd_ShouldReturnFalse_WhenOptionIsSomeButValueDoesNotMatch()
-    {
-        _some.IsSomeAnd(2).ShouldBeFalse();
-    }
-
-    [Test]
-    [Obsolete("Tested code has become obsolete")]
-    public void IsSomeAnd_ShouldReturnFalse_WhenOptionIsNone()
-    {
-        _none.IsSomeAnd(1).ShouldBeFalse();
-    }
 
     [Test]
     public void IsSomeAnd_ShouldReturnTrue_WhenOptionIsSomeAndPredicateMatches()
@@ -68,27 +48,6 @@ public class IsSomeAndExtensionsTests
     public async Task IsSomeAndAsync_ShouldReturnFalse_WhenOptionIsNoneWithPredicate()
     {
         (await _none.IsSomeAndAsync(x => Task.FromResult(x > 0))).ShouldBeFalse();
-    }
-
-    [Test]
-    [Obsolete("Tested code has become obsolete")]
-    public async Task IsSomeAnd_ShouldReturnTrue_WhenOptionTaskIsSomeAndValueMatches()
-    {
-        (await _someAsync.IsSomeAnd(1)).ShouldBeTrue();
-    }
-
-    [Test]
-    [Obsolete("Tested code has become obsolete")]
-    public async Task IsSomeAnd_ShouldReturnFalse_WhenOptionTaskIsSomeButValueDoesNotMatch()
-    {
-        (await _someAsync.IsSomeAnd(2)).ShouldBeFalse();
-    }
-
-    [Test]
-    [Obsolete("Tested code has become obsolete")]
-    public async Task IsSomeAnd_ShouldReturnFalse_WhenOptionTaskIsNone()
-    {
-        (await _noneAsync.IsSomeAnd(1)).ShouldBeFalse();
     }
 
     [Test]

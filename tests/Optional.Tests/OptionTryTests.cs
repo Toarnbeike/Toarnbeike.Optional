@@ -1,5 +1,6 @@
 ﻿namespace Toarnbeike.Optional.Tests;
 
+[Obsolete("Use Result.Try from Toarnbeike.Results to retain failure information.")]
 public class OptionTryTests
 {
     [Test]

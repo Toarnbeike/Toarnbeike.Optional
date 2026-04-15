@@ -6,7 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [2.0.0] - 2026-04-16
 
-### Optimized
+### Removed
+- Extensions.IsSomeAnd that test for TValue. Where obsolete since 1.1.0 (#13)
+
+### Depricated
+- Extensions.IsSomeAnd that test for Predicate. Use `TextExtensions.ShouldBeSome()` for assertions, and `Reduce()` or `Match()` when closing the `Option<>` Monad. (#13)
+- Option.Try. Use `Result.Try` from `Toarnbeike.Results` to retain failure information. (#13)
+- TestExtensions.ShouldBeSomeWithValue(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
+- TestExtensions.ShouldBeSomeThatMatches(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
+- TestExtensions.ShouldBeSomeThatSatisfies(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
+
+### Changed
 - CollectionExtensions.LastOrNone use optimized path for IList and IReadOnlyList (#1)
 
 ## [1.1.0] - 2025-12-31

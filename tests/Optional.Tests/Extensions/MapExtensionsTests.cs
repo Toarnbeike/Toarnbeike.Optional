@@ -30,7 +30,7 @@ public class MapExtensionsTests
     public void Map_Should_ReturnSome_WhenOptionIsSome()
     {
         var result = _some.Map(_selectHalf);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]
@@ -44,7 +44,7 @@ public class MapExtensionsTests
     public async Task MapAsync_Should_ReturnSome_WhenOptionIsSome()
     {
         var result = await _some.MapAsync(_selectHalfAsync);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]
@@ -58,7 +58,7 @@ public class MapExtensionsTests
     public async Task Map_Should_ReturnSome_WhenOptionTaskIsSome()
     {
         var result = await _someAsync.Map(_selectHalf);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]
@@ -72,7 +72,7 @@ public class MapExtensionsTests
     public async Task MapAsync_Should_ReturnSome_WhenOptionTaskIsSome()
     {
         var result = await _someAsync.MapAsync(_selectHalfAsync);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]

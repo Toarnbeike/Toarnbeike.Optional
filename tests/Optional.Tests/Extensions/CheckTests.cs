@@ -33,7 +33,7 @@ public class CheckTests
     public void Check_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = _some.Check(_checkTrue);
-        result.ShouldBeSomeWithValue(1);
+        result.ShouldBeSome().ShouldBe(1);
     }
 
     [Test]
@@ -54,7 +54,7 @@ public class CheckTests
     public async Task CheckAsync_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = await _some.CheckAsync(_checkTrueAsync);
-        result.ShouldBeSomeWithValue(1);
+        result.ShouldBeSome().ShouldBe(1);
     }
 
     [Test]
@@ -75,7 +75,7 @@ public class CheckTests
     public async Task Check_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.Check(_checkTrue);
-        result.ShouldBeSomeWithValue(1);
+        result.ShouldBeSome().ShouldBe(1);
     }
 
     [Test]
@@ -96,7 +96,7 @@ public class CheckTests
     public async Task CheckAsync_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.CheckAsync(_checkTrueAsync);
-        result.ShouldBeSomeWithValue(1);
+        result.ShouldBeSome().ShouldBe(1);
     }
 
     [Test]
