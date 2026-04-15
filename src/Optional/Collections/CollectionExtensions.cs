@@ -5,19 +5,18 @@
 /// </summary>
 public static class CollectionExtensions
 {
+    /// <param name="source">The <see cref="IEnumerable{T}" /> to return the values of.</param>
     extension<TValue>(IEnumerable<Option<TValue>> source)
     {
         /// <summary>
         /// Returns all elements of the sequence that have a value.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the values of.</param>
         public IEnumerable<TValue> Values() =>
             source.WhereValues(value => true);
 
         /// <summary>
         /// Returns all elements of the sequence that have a value.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the values of.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         public IEnumerable<TValue> WhereValues(Func<TValue, bool> predicate)
         {
@@ -38,7 +37,6 @@ public static class CollectionExtensions
         /// </summary>
         /// <typeparam name="TValue">The type of the value contained in the <see cref="Option{TValue}"/> elements.</typeparam>
         /// <typeparam name="TResult">The type of the value returned by the selector function.</typeparam>
-        /// <param name="source">The sequence of <see cref="Option{TValue}"/> elements to process.</param>
         /// <param name="selector">A transform function to apply to each value contained in the <see cref="Option{TValue}"/> elements.</param>
         /// <returns>An <see cref="IEnumerable{T}"/> containing the results of applying the selector function  to the values of the
         /// <see cref="Option{TValue}"/> elements in the source sequence.</returns>
@@ -52,14 +50,12 @@ public static class CollectionExtensions
         /// <summary>
         /// Returns the number of entries in the sequence that contain a value.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the count of.</param>
         public int CountValues() =>
             source.Count(option => option.HasValue);
 
         /// <summary>
         /// Returns the number of entries in the sequence that contain a value.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the count of.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         public int CountValues(Func<TValue, bool> predicate)
         {
@@ -71,14 +67,12 @@ public static class CollectionExtensions
         /// <summary>
         /// Returns true if there are any non-empty entries in the sequence.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to check if it has any values.</param>
         public bool AnyValues() =>
             source.Any(option => option.HasValue);
 
         /// <summary>
         /// Returns true if there are any non-empty entries in the sequence.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to check if it has any values.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         public bool AnyValues(Func<TValue, bool> predicate)
         {
@@ -111,16 +105,14 @@ public static class CollectionExtensions
         }
 
         /// <summary>
-        /// Returns the first element of a sequence, or <c>Option.None</c> if the sequence contains no elements.</summary>
+        /// Returns the first element of a sequence, or <c>Option.None</c> if the sequence contains no elements.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the first value of.</param>
         public Option<TValue> FirstOrNone() =>
             source.Where(option => option.HasValue).FirstOrDefault(Option.None);
 
         /// <summary>
-        /// Returns the first element of a sequence, or <c>Option.None</c> if the sequence contains no elements.</summary>
+        /// Returns the first element of a sequence, or <c>Option.None</c> if the sequence contains no elements.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the first value of.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         public Option<TValue> FirstOrNone(Func<TValue, bool> predicate)
         {
@@ -130,16 +122,14 @@ public static class CollectionExtensions
         }
 
         /// <summary>
-        /// <summary>Returns the last element of a sequence, or <c>Option.None</c> if the sequence contains no elements.</summary>
+        /// Returns the last element of a sequence, or <c>Option.None</c> if the sequence contains no elements.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the first value of.</param>
         public Option<TValue> LastOrNone() =>
             source.Where(option => option.HasValue).LastOrDefault(Option.None);
 
         /// <summary>
-        /// <summary>Returns the last element of a sequence, or <c>Option.None</c> if the sequence contains no elements.</summary>
+        /// Returns the last element of a sequence, or <c>Option.None</c> if the sequence contains no elements.
         /// </summary>
-        /// <param name="source">The <see cref="IEnumerable{T}" /> to return the first value of.</param>
         /// <param name="predicate">A function to test each element for a condition.</param>
         public Option<TValue> LastOrNone(Func<TValue, bool> predicate)
         {
