@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/docs/">
+    <File Path="docs/Collections.md" />
+    <File Path="docs/Extensions.md" />
+    <File Path="docs/Linq.md" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="CHANGELOG.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Optional.Abstractions/Optional.Abstractions.csproj" Id="da256879-a92b-4a81-b812-463690314017" />
+    <Project Path="src/Optional/Optional.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Optional.Abstractions.Tests/Optional.Abstractions.Tests.csproj" Id="3532f452-38dd-495b-85ed-5ecc20835719" />
+    <Project Path="tests/Optional.Tests/Optional.Tests.csproj" />
+  </Folder>
+  <Folder Name="/workflows/">
+    <File Path=".github/workflows/build.yaml" />
+    <File Path=".github/workflows/publish.yaml" />
+    <File Path=".github/workflows/versionCheck.yaml" />
+  </Folder>
+</Solution>

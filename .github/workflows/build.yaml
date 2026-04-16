@@ -25,6 +25,10 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
+      - name: Run XUnit Tests (Optional.Abstractions)
+        run: dotnet test tests/Optional.Abstractions.Tests/Optional.Abstractions.Tests.csproj --framework net10.0 --configuration Release --no-build --verbosity normal
+
+
       - name: Run TUnit Tests
         run: |
           # Run the TUnit test executable and capture output
@@ -32,6 +36,13 @@ jobs:
 
           # Fail the job if any tests failed
           grep -q "failed: 0" tunit_output.log || exit 1
+
+      - name: Upload XUnit Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xunit-results
+          path: tests/Results.Abstractions.Tests/TestResults/*.trx
 
       - name: Upload Test Output
         if: always()

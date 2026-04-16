@@ -4,7 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [1.1.0] - Unreleased
+## [2.0.0] - 2026-04-16
+
+### Removed
+- Extensions.IsSomeAnd that test for TValue. Where obsolete since 1.1.0 (#13)
+
+### Added
+- Introduced `Toarnbeike.Results.Abstractions` for source generator abstractions (#16)
+- Added `Optional.Abstractions.Tests`, multitargeting .net472 (for netStandard2.0) and net10 for testing the abstractions. (#16)
+
+### Depricated
+- Extensions.IsSomeAnd that test for Predicate. Use `TextExtensions.ShouldBeSome()` for assertions, and `Reduce()` or `Match()` when closing the `Option<>` Monad. (#13)
+- Extensions.OrElse. Use `Reduce()` for normal use cases, convert back to `Option.Some` if nessesary. (#17)
+- Option.Try. Use `Result.Try` from `Toarnbeike.Results` to retain failure information. (#13)
+- TestExtensions.ShouldBeSomeWithValue(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
+- TestExtensions.ShouldBeSomeThatMatches(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
+- TestExtensions.ShouldBeSomeThatSatisfies(). Since TestExtensions is not meant as assertion library. Use `ShouldBeSome()` followed by Shouldly assertions. (#13)
+
+### Changed
+- CollectionExtensions.LastOrNone use optimized path for IList and IReadOnlyList (#1)
+- Cleaned README.md and moved linq description to separate doc (#15)
+
+### Tooling
+- Migrated to .slnx solution file (#14)
+
+## [1.1.0] - 2025-12-31
 
 ### Added
 - TestExtensions are integrated directly into the package.

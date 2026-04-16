@@ -3,109 +3,119 @@
 /// <summary>
 /// Provides utility methods for working with potentially failing operations that return an <see cref="Option{TValue}"/>.
 /// </summary>
-public static partial class Option
+public static class OptionTryExtensions
 {
-    /// <summary>
-    /// Tries to execute the specified function.
-    /// </summary>
-    /// <remarks>
-    /// This method will swallow any exception, including cancellation and fatal runtime expections.
-    /// Intended use cases include e.g. parsing and reading configuration.
-    /// </remarks>
-    /// <typeparam name="TValue">The type of the value returned by the function.</typeparam>
-    /// <param name="func">The function to execute that might throw.</param>
-    /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
-    /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred.</returns>
-    /// <example>
-    /// Option{int} result = Option.Try(() => int.Parse("abc"));
-    /// </example>
-    public static Option<TValue> Try<TValue>(Func<TValue> func, Action<Exception>? logException = null)
+    extension(Option)
     {
-        ArgumentNullException.ThrowIfNull(func);
-        return Try(func, _ => true, logException);
-    }
-
-    /// <summary>
-    /// Tries to execute the specified function.
-    /// </summary>
-    /// <remarks>
-    /// This method will swallow any exception for which the <paramref name="catchWhen"/> returns true.
-    /// Intended use cases include e.g. parsing and reading configuration.
-    /// </remarks>
-    /// <typeparam name="TValue">The type of the value returned by the function.</typeparam>
-    /// <param name="func">The function to execute that might throw.</param>
-    /// <param name="catchWhen">Optional filter to determine if the exception should be swallowed or rethrown.</param>
-    /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
-    /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred and was filtered.</returns>
-    /// <example>
-    /// Option&lt;int&gt; result = Option.Try(() => int.Parse("abc"), ex => ex is FormatException);
-    /// </example>
-    public static Option<TValue> Try<TValue>(Func<TValue> func, Func<Exception, bool> catchWhen, Action<Exception>? logException = null)
-    {
-        ArgumentNullException.ThrowIfNull(func);
-        ArgumentNullException.ThrowIfNull(catchWhen);
-
-        try
+        /// <summary>
+        /// Tries to execute the specified function.
+        /// </summary>
+        /// <remarks>
+        /// This method will swallow any exception, including cancellation and fatal runtime expections.
+        /// Intended use cases include e.g. parsing and reading configuration.
+        /// </remarks>
+        /// <typeparam name="TValue">The type of the value returned by the function.</typeparam>
+        /// <param name="func">The function to execute that might throw.</param>
+        /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
+        /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred.</returns>
+        /// <example>
+        /// Option{int} result = Option.Try(() => int.Parse("abc"));
+        /// </example>
+        [Obsolete("Use Result.Try from Toarnbeike.Results to retain failure information.")]
+        public static Option<TValue> Try<TValue>(Func<TValue> func, Action<Exception>? logException = null)
         {
-            var result = func();
-            return result is not null ? Some(result) : None;
+            ArgumentNullException.ThrowIfNull(func);
+            return Try(func, _ => true, logException);
         }
-        catch (Exception ex) when (catchWhen.Invoke(ex))
+
+        /// <summary>
+        /// Tries to execute the specified function.
+        /// </summary>
+        /// <remarks>
+        /// This method will swallow any exception for which the <paramref name="catchWhen"/> returns true.
+        /// Intended use cases include e.g. parsing and reading configuration.
+        /// </remarks>
+        /// <typeparam name="TValue">The type of the value returned by the function.</typeparam>
+        /// <param name="func">The function to execute that might throw.</param>
+        /// <param name="catchWhen">Optional filter to determine if the exception should be swallowed or rethrown.</param>
+        /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
+        /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred and was filtered.</returns>
+        /// <example>
+        /// Option&lt;int&gt; result = Option.Try(() => int.Parse("abc"), ex => ex is FormatException);
+        /// </example>
+        [Obsolete("Use Result.Try from Toarnbeike.Results to retain failure information.")]
+        public static Option<TValue> Try<TValue>(Func<TValue> func, Func<Exception, bool> catchWhen,
+            Action<Exception>? logException = null)
         {
-            logException?.Invoke(ex);
-            return None;
+            ArgumentNullException.ThrowIfNull(func);
+            ArgumentNullException.ThrowIfNull(catchWhen);
+
+            try
+            {
+                var result = func();
+                return result is not null ? Option.Some(result) : Option.None;
+            }
+            catch (Exception ex) when (catchWhen.Invoke(ex))
+            {
+                logException?.Invoke(ex);
+                return Option.None;
+            }
         }
-    }
 
-    /// <summary>
-    /// Tries to execute the specified task.
-    /// </summary>
-    /// <remarks>
-    /// This method will swallow any exception, including cancellation and fatal runtime expections.
-    /// Intended use cases include e.g. parsing and reading configuration.
-    /// </remarks>
-    /// <typeparam name="TValue">The type of the value returned by the task.</typeparam>
-    /// <param name="task">The task to execute that might throw.</param>
-    /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
-    /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred.</returns>
-    /// <example>
-    /// Option&lt;int&gt; result = Option.Try(() => int.Parse("abc"));
-    /// </example>
-    public static async Task<Option<TValue>> TryAsync<TValue>(Func<Task<TValue>> task, Action<Exception>? logException = null)
-    {
-        ArgumentNullException.ThrowIfNull(task);
-        return await TryAsync(task, _ => true, logException);
-    }
-
-    /// <summary>
-    /// Tries to execute the specified task.
-    /// </summary>
-    /// <remarks>
-    /// This method will swallow any exception for which the <paramref name="catchWhen"/> returns true.
-    /// Intended use cases include e.g. parsing and reading configuration.
-    /// </remarks>
-    /// <typeparam name="TValue">The type of the value returned by the task.</typeparam>
-    /// <param name="task">The task to execute that might throw.</param>
-    /// <param name="catchWhen">Optional filter to determine if the exception should be swallowed or rethrown.</param>
-    /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
-    /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred and was filtered.</returns>
-    /// <example>
-    /// Option&lt;int&gt; result = Option.TryAsync(async () => await int.ParseAsync("abc"), ex => ex is FormatException);
-    /// </example>
-    public static async Task<Option<TValue>> TryAsync<TValue>(Func<Task<TValue>> task, Func<Exception, bool> catchWhen, Action<Exception>? logException = null)
-    {
-        ArgumentNullException.ThrowIfNull(task);
-        ArgumentNullException.ThrowIfNull(catchWhen);
-
-        try
+        /// <summary>
+        /// Tries to execute the specified task.
+        /// </summary>
+        /// <remarks>
+        /// This method will swallow any exception, including cancellation and fatal runtime expections.
+        /// Intended use cases include e.g. parsing and reading configuration.
+        /// </remarks>
+        /// <typeparam name="TValue">The type of the value returned by the task.</typeparam>
+        /// <param name="task">The task to execute that might throw.</param>
+        /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
+        /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred.</returns>
+        /// <example>
+        /// Option&lt;int&gt; result = Option.Try(() => int.Parse("abc"));
+        /// </example>
+        [Obsolete("Use Result.Try from Toarnbeike.Results to retain failure information.")]
+        public static async Task<Option<TValue>> TryAsync<TValue>(Func<Task<TValue>> task,
+            Action<Exception>? logException = null)
         {
-            var result = await task().ConfigureAwait(false);
-            return result is not null ? Some(result) : None;
+            ArgumentNullException.ThrowIfNull(task);
+            return await TryAsync(task, _ => true, logException);
         }
-        catch (Exception ex) when (catchWhen.Invoke(ex))
+
+        /// <summary>
+        /// Tries to execute the specified task.
+        /// </summary>
+        /// <remarks>
+        /// This method will swallow any exception for which the <paramref name="catchWhen"/> returns true.
+        /// Intended use cases include e.g. parsing and reading configuration.
+        /// </remarks>
+        /// <typeparam name="TValue">The type of the value returned by the task.</typeparam>
+        /// <param name="task">The task to execute that might throw.</param>
+        /// <param name="catchWhen">Optional filter to determine if the exception should be swallowed or rethrown.</param>
+        /// <param name="logException">Optional action to log the exception before it is swallowed.</param>
+        /// <returns>An <see cref="Option{TValue}"/> with the result or <see cref="Option{TValue}.None"/> if an exception occurred and was filtered.</returns>
+        /// <example>
+        /// Option&lt;int&gt; result = Option.TryAsync(async () => await int.ParseAsync("abc"), ex => ex is FormatException);
+        /// </example>
+        [Obsolete("Use Result.Try from Toarnbeike.Results to retain failure information.")]
+        public static async Task<Option<TValue>> TryAsync<TValue>(Func<Task<TValue>> task,
+            Func<Exception, bool> catchWhen, Action<Exception>? logException = null)
         {
-            logException?.Invoke(ex);
-            return None;
+            ArgumentNullException.ThrowIfNull(task);
+            ArgumentNullException.ThrowIfNull(catchWhen);
+
+            try
+            {
+                var result = await task().ConfigureAwait(false);
+                return result is not null ? Option.Some(result) : Option.None;
+            }
+            catch (Exception ex) when (catchWhen.Invoke(ex))
+            {
+                logException?.Invoke(ex);
+                return Option.None;
+            }
         }
     }
 }

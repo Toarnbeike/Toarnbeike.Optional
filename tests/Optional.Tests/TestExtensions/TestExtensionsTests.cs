@@ -38,6 +38,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ReturnTValue_WhenOptionIsSomeAndValueMatches()
     {
         var result = _some.ShouldBeSomeWithValue(1);
@@ -45,6 +46,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ThrowException_WhenOptionIsSomeAndValueDoenstMatch()
     {
         var exception = Should.Throw<AssertionFailedException>(() => _some.ShouldBeSomeWithValue(0));
@@ -53,6 +55,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ThrowException_WhenOptionIsNone()
     {
         var exception = Should.Throw<AssertionFailedException>(() => _none.ShouldBeSomeWithValue(0));
@@ -61,6 +64,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ReturnCustomMessage_WhenProvided()
     {
         var message = "Custom failure message.";
@@ -69,6 +73,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ReturnTValue_WhenOptionIsSomeAndValueMatchesCustomComparer()
     {
         var result = _someForComparer.ShouldBeSomeWithValue("HELLO", _caseInsensitive);
@@ -76,6 +81,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ThrowException_WhenOptionIsSomeAndValueDoenstMatchCustomComparer()
     {
         var exception = Should.Throw<AssertionFailedException>(() => _someForComparer.ShouldBeSomeWithValue("Different", _caseInsensitive));
@@ -85,6 +91,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ThrowException_WhenOptionIsNone_WithCustomComparer()
     {
         var exception = Should.Throw<AssertionFailedException>(() => _noneForComparer.ShouldBeSomeWithValue("hello", _caseInsensitive));
@@ -93,6 +100,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeWithValue_Should_ReturnCustomMessage_WhenProvidedWithCustomerComparer()
     {
         var message = "Custom failure message.";
@@ -101,6 +109,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeThatMatches_Should_ReturnTValue_WhenOptionIsSomeAndPredicateMatches()
     {
         var result = _some.ShouldBeSomeThatMatches(value => value > 0);
@@ -108,6 +117,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeThatMatches_Should_ThrowException_WhenOptionIsSomeAndValueDoenstMatch()
     {
         var exception = Should.Throw<AssertionFailedException>(() => _some.ShouldBeSomeThatMatches(value => value < 0));
@@ -116,6 +126,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeThatMatches_Should_ThrowException_WhenOptionIsNone()
     {
         var exception = Should.Throw<AssertionFailedException>(() => _none.ShouldBeSomeThatMatches(value => value > 0));
@@ -124,6 +135,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeThatMatches_Should_ReturnCustomMessage_WhenProvided()
     {
         var message = "Custom failure message.";
@@ -132,6 +144,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeAndSatisfy_Should_ReturnTValue_WhenOptionIsSomeAndAssertPasses()
     {
         var result = _some.ShouldBeSomeAndSatisfy(value => value.ShouldBeGreaterThan(0));
@@ -139,6 +152,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeAndSatisfy_Should_ThrowException_WhenOptionIsSomeAndAssertFails()
     {
         // no asserts on message, message is provided by ShouldBeGreaterThan from Shouldly and might change
@@ -146,6 +160,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeAndSatisfy_Should_ThrowException_WhenOptionIsNone()
     {
         var exception = Should.Throw<AssertionFailedException>(() => _none.ShouldBeSomeAndSatisfy(value => value.ShouldBeOfType<int>()));
@@ -154,6 +169,7 @@ public class OptionAssertionsTests
     }
 
     [Test]
+    [Obsolete("Optional.TestExtensions is not an assertion library. Use ShouldBeSome().ShouldBe(expected).")]
     public void ShouldBeSomeAndSatisfy_Should_ReturnCustomMessage_WhenProvided()
     {
         var message = "Custom failure message.";

@@ -4,7 +4,7 @@ public class OptionTests
 {
     private const string _testValue = "test";
 
-    [Test]
+    [Fact]
     public void Some_Should_CreateOptionWithValue()
     {
         var option = Option<string>.Some(_testValue);
@@ -14,13 +14,13 @@ public class OptionTests
         actual.ShouldBe(_testValue);
     }
 
-    [Test]
+    [Fact]
     public void Some_Should_ThrowArgumentNullException_WhenValueIsNull()
     {
         Should.Throw<ArgumentNullException>(() => Option<string>.Some(null!));
     }
 
-    [Test]
+    [Fact]
     public void None_Should_CreateOptionWithoutValue()
     {
         var option = Option<string>.None();
@@ -29,7 +29,7 @@ public class OptionTests
         option.TryGetValue(out var _).ShouldBeFalse();
     }
 
-    [Test]
+    [Fact]
     public void Value_Should_ImplicitlyConvertToOption()
     {
         Option<string> option = _testValue;
@@ -39,7 +39,7 @@ public class OptionTests
         actual.ShouldBe(_testValue);
     }
 
-    [Test]
+    [Fact]
     public void TryGetValue_Should_ReturnTrue_WhenOptionHasValue()
     {
         var option = Option<string>.Some(_testValue);
@@ -47,42 +47,42 @@ public class OptionTests
         actual.ShouldBe(_testValue);
     }
 
-    [Test]
+    [Fact]
     public void TryGetValue_Should_ReturnFalse_WhenOptionHasNoValue()
     {
         var option = Option<string>.None();
         option.TryGetValue(out var actual).ShouldBeFalse();
     }
 
-    [Test]
+    [Fact]
     public void EqualValue_Should_ReturnTrue_WhenOptionHasEqualValue()
     {
         var option = Option<string>.Some(_testValue);
         option.EqualValue(_testValue).ShouldBeTrue();
     }
 
-    [Test]
+    [Fact]
     public void EqualValue_Should_ReturnFalse_WhenValuesDoNotMatch()
     {
         var option = Option<string>.Some(_testValue);
         option.EqualValue("something else").ShouldBeFalse();
     }
 
-    [Test]
+    [Fact]
     public void EqualValue_Should_ReturnFalse_WhenOptionHasNoValue()
     {
         var option = Option<string>.None();
         option.EqualValue(_testValue).ShouldBeFalse();
     }
 
-    [Test]
+    [Fact]
     public void EqualValue_Should_ReturnFalse_WhenComparedWithNull()
     {
         var option = Option<string>.Some("value");
         option.EqualValue(null!).ShouldBeFalse();
     }
 
-    [Test]
+    [Fact]
     public void Equals_Should_ReturnTrue_WhenOptionsHaveSameValue()
     {
         var option1 = Option<string>.Some(_testValue);
@@ -95,7 +95,7 @@ public class OptionTests
         option1.Equals((object)option2).ShouldBeTrue();
     }
 
-    [Test]
+    [Fact]
     public void Equals_Should_ReturnTrue_WhenOptionsHaveNoValue()
     {
         var option1 = Option<string>.None();
@@ -108,7 +108,7 @@ public class OptionTests
         option1.Equals((object)option2).ShouldBeTrue();
     }
 
-    [Test]
+    [Fact]
     public void Equals_Should_ReturnFalse_WhenOptionsHaveDifferentValues()
     {
         var option1 = Option<string>.Some(_testValue);
@@ -121,7 +121,7 @@ public class OptionTests
         option1.Equals((object)option2).ShouldBeFalse();
     }
 
-    [Test]
+    [Fact]
     public void Equals_Should_ReturnFalse_WhenOneIsSome_AndOtherIsNone()
     {
         Option<string> option1 = Option.None;
@@ -134,21 +134,21 @@ public class OptionTests
         option1.Equals((object)option2).ShouldBeFalse();
     }
 
-    [Test]
+    [Fact]
     public void Equals_Should_UseReferenceEquality_ForSameInstance()
     {
         var option = Option<string>.Some(_testValue);
         option.Equals(option).ShouldBeTrue();
     }
 
-    [Test]
+    [Fact]
     public void GetHashCode_Should_ReturnZero_IfNone()
     {
         var option1 = Option<string>.None();
         option1.GetHashCode().ShouldBe(0);
     }
 
-    [Test]
+    [Fact]
     public void DebuggerToString_ReturnsExpectedFormat_WhenSome()
     {
         var option = Option<string>.Some(_testValue);
@@ -158,7 +158,7 @@ public class OptionTests
         actual.ShouldBe("Some(test)");
     }
 
-    [Test]
+    [Fact]
     public void DebuggerToString_ReturnsExpectedFormat_WhenNone()
     {
         var option = Option<string>.None();

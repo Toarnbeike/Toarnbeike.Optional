@@ -8,8 +8,6 @@ public static class ReduceExtensions
         /// <summary>
         /// Reduce this to the inner <typeparamref name="TValue"/> by either taking the value or using the provided value.
         /// </summary>
-        /// <remarks> Similar to <see cref="OrElseExtensions.OrElse{TValue}(Option{TValue}, TValue)"/>, but returns 
-        /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElse">The value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
         public TValue Reduce(TValue orElse) =>
@@ -18,8 +16,6 @@ public static class ReduceExtensions
         /// <summary>
         /// Reduce this to the inner <typeparamref name="TValue"/> by either taking the value or using the provided value.
         /// </summary>
-        /// <remarks> Similar to <see cref="OrElseExtensions.OrElse{TValue}(Option{TValue}, Func{TValue})"/>, but returns 
-        /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElseFunction">The function to generate the value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
         public TValue Reduce(Func<TValue> orElseFunction)
@@ -31,8 +27,6 @@ public static class ReduceExtensions
         /// <summary>
         /// Reduce this to the inner <typeparamref name="TValue"/> by either taking the value or using the provided value.
         /// </summary>
-        /// <remarks> Similar to <see cref="OrElseExtensions.OrElseAsync{TValue}(Option{TValue}, Func{Task{TValue}})"/>, but returns 
-        /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElseTask">The task to generate the value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
         public async Task<TValue> ReduceAsync(Func<Task<TValue>> orElseTask)
@@ -48,8 +42,6 @@ public static class ReduceExtensions
         /// <summary>
         /// Reduce this to the inner <typeparamref name="TValue"/> by either taking the value or using the provided value.
         /// </summary>
-        /// <remarks> Similar to <see cref="OrElseExtensions.OrElse{TValue}(Task{Option{TValue}}, TValue)"/>, but returns 
-        /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElse">The value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
         public async Task<TValue> Reduce(TValue orElse)
@@ -61,8 +53,6 @@ public static class ReduceExtensions
         /// <summary>
         /// Reduce this to the inner <typeparamref name="TValue"/> by either taking the value or using the provided value.
         /// </summary>
-        /// <remarks> Similar to <see cref="OrElseExtensions.OrElse{TValue}(Task{Option{TValue}}, Func{TValue})"/>, but returns 
-        /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElseFunc">Function to calculate the value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
         public async Task<TValue> Reduce(Func<TValue> orElseFunc)
@@ -74,8 +64,6 @@ public static class ReduceExtensions
         /// <summary>
         /// Reduce this to the inner <typeparamref name="TValue"/> by either taking the value or using the provided value.
         /// </summary>
-        /// <remarks> Similar to <see cref="OrElseExtensions.OrElseAsync{TValue}(Task{Option{TValue}}, Func{Task{TValue}})"/>, but returns 
-        /// a <typeparamref name="TValue"/> rather then a <see cref="Option{TValue}"/>.</remarks>
         /// <param name="orElseTask">The task to generate the value to use if this is empty.</param>
         /// <returns>The value if provided, or the alternative if empty.</returns>
         public async Task<TValue> ReduceAsync(Func<Task<TValue>> orElseTask)

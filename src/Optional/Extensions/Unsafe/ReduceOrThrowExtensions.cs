@@ -28,6 +28,5 @@ public static class ReduceOrThrowExtensions
     /// "Option has no value".</param>
     /// <returns>The value contained in the <see cref="Option{TValue}"/>.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the <paramref name="option"/> does not contain a value.</exception>
-    public static async Task<TValue> ReduceOrThrowAsync<TValue>(this Task<Option<TValue>> optionTask, string message = "Option has no value") =>
-        ReduceOrThrow(await optionTask.ConfigureAwait(false), message);
+    public static async Task<TValue> ReduceOrThrowAsync<TValue>(this Task<Option<TValue>> optionTask, string message = "Option has no value") => (await optionTask.ConfigureAwait(false)).ReduceOrThrow(message);
 }

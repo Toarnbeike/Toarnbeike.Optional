@@ -22,11 +22,11 @@ public static class AsNullableExtensions
     /// Awaits the task and converts the <see cref="Option{TValue}"/> to its nullable representation.
     /// </summary>
     public static async Task<TValue?> AsNullable<TValue>(this Task<Option<TValue>> optionTask) where TValue : class =>
-        AsNullable(await optionTask.ConfigureAwait(false));
+        (await optionTask.ConfigureAwait(false)).AsNullable();
 
     /// <summary>
     /// Awaits the task and converts the <see cref="Option{TValue}"/> to its nullable representation.
     /// </summary>
-    public static async Task<TValue?> AsNullableValue<TValue>(this Task<Option<TValue>> optionTask) where TValue : struct =>
-        AsNullableValue(await optionTask.ConfigureAwait(false));
+    public static async Task<TValue?> AsNullableValue<TValue>(this Task<Option<TValue>> optionTask) where TValue : struct => 
+        (await optionTask.ConfigureAwait(false)).AsNullableValue();
 }

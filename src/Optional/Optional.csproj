@@ -1,13 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<PackageId>Toarnbeike.Optional</PackageId>
-	<!-- Version is managed centrally in Directory.build.props to keep versions in sync.-->
-	<Description>Functional-style Option/Maybe implementation for .NET</Description>
-	<PackageTags>option maybe monad functional some none collections</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<RootNamespace>Toarnbeike.Optional</RootNamespace>
+		<TargetFramework>net10.0</TargetFramework>
 
-  <ItemGroup>
-	<None Include="../../README.md" Pack="true" PackagePath="" />
-  </ItemGroup>
+		<PackageId>Toarnbeike.Optional</PackageId>
+		<!-- Version is managed centrally in Directory.build.props to keep versions in sync.-->
+		<Description>Functional-style Option/Maybe implementation for .NET</Description>
+		<PackageTags>option maybe monad functional some none collections</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../../README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Optional.Abstractions\Optional.Abstractions.csproj" />
+	</ItemGroup>
 </Project>

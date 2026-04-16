@@ -4,22 +4,21 @@
 
 # Toarnbeike.Optional
 
-This package provides a **lightweight and expressive [Option (Maybe) monad](https://en.wikipedia.org/wiki/Option_type) for C#, inspired by functional programming, while remaining idiomatic to the .NET ecosystem.  
+This package provides a **lightweight and expressive [Option (Maybe) monad](https://en.wikipedia.org/wiki/Option_type)** for explicit handling of missing values in .NET.  
+
+It introduces **`Option<TValue>`** type, inspired by functional programming and discriminated unions, 
+while remaining idiomatic to the .NET exosystem.
 
 An `Option<TValue>` represents a value that can either be there, or be absent, without reling on nulls. 
 It improves code clarity and safety by making the **absence of a value explicit**, replacing null checks and exceptions with a functional approach.
 
 ## Features
 
-- Fluent API for working with optional values
-- Implicit conversion from values and `Option.None`
-- Rich functional extensions (Map, Bind, Match, Tap and others)
-- Async support for all extensions
-- Rich LINQ-style extensions for `IEnumerable<Option<T>>`
-- Linq integration (query syntax)
-- Test extensions for fluent assertions
-- Comprehensive XML documentation and usage examples
-- Unit tested with full code coverage
+- **Explicit missing value handling** Avoid using nulls for missing values; make absent a meaningful feature.
+- **Fluent extension methods:** Compose operations with `Bind`, `Map`, `Match`, `Reduce`, and more.
+- **Fluent collection extensions:** Handle collections with missing values using `WhereValues`, `SelectValues`, `FirstOrNone` and more.
+* **Seamless async support:** Works naturally with Task and async pipelines.
+- **Functional programming inspired:** Inspired by FP principles for predictable, readable, and maintainable error handling.
  
 ---
 
@@ -29,15 +28,15 @@ It improves code clarity and safety by making the **absence of a value explicit*
 1. [Extensions](#extensions)
 1. [Collections](#collections)
 1. [Linq query syntax](#linq-query-syntax)
-1. [Try helpers](#try-helpers)
 1. [Test extensions](#test-extensions)
-1. [Why Options?](#why-options)
+1. [Conclusion](#conclusion)
 
 ---
 
 ## Quick start
 
-This example demonstrates the most common workflow when using Options: construction, transformation and consumption.
+This example demonstrates the most common workflow when using Options: 
+construction, transformation and consumption.
 
 ```csharp
 using Toarnbeike.Optional;			
@@ -50,9 +49,9 @@ Option<string> missing = Option.None;
 var messageLength = message.Map(value => value.Length); // Option<int> with value 12
 var newMissing = missing.Map(_ => "Not executed");      // Option<string>, still None.
 
-// Console the value
+// Consume the value
 Console.WriteLine($"Message had {messageLength.Reduce(0)} characters");    // Message had 12 characters
-Console.WriteLine($"Missing was replaced by: {newMissing.Reduce("Hello")}; // Missing was replaced by: Hello
+Console.WriteLine($"Missing was replaced by: {newMissing.Reduce("Hello")); // Missing was replaced by: Hello
 ```
 
 Key properties of working with Unions:
@@ -64,28 +63,55 @@ Key properties of working with Unions:
 
 ## Core Concepts
 
-An option can represent either a value (`Some`) or no value (`None`):
+### What is an `Option<TValue>`
 
-```csharp
-var option1 = Option<int>.Some(1);
-var option2 = Option.Some(1);        // Type inferred
-var option3 = Option<int>.None();
+An option can represent either a value (`Some`) with an attached value of type `TValue`, or no value (`None`). 
+At any point, the option is either Some, with value, or None, without value.
 
-Option<int> option4 = 1;             // Implicit conversion
-Option<int> option5 = Option.None;
+Any `TValue` can implicitly be converted to `Option<TValue>`; the option is a container (monad) that contains the value,
+and supplies functional methods to transform it's value.
+
+### What is `None`
+
+None is a state of the `Option<TValue>` that indicated that no value is present.
+If the option is in the `None` state, a value can be supplied using the `Reduce` function, with reduces the `Option<TValue>` to `TValue` by providing an alternative value.
+
+### Construction
+
+An `Option<TValue>` can either be created through the static factory methods on `Option<TValue>`, or using implicit conversions.
+In the example below, some1 and some2 are equivalent, as are none1 and none2.
+
+``` csharp
+Option<int> some1 = 42;
+var some2 = Option<int>.Some(42);
+
+Option<int> none1 = Option.None;
+var none2 = Option<int>.None();
 ```
 
-Extracting the value:
+### Transformations
+
+Options can be transformed on value using the many provided extension methods.
+For an overview of the available methods, see [Extension methods](#extensions).
+For a detailed description of each of the methods, see [Extension docs](docs/Extensions.md).
+
+### Consumption
+
+Options can be consumed either by
+- using the `Reduce` method. This provides an alternative value when the option is `None`.
+- using the `Match` method. This requires a delegate for both `Some` and `None` state.
+
 ```csharp
-if (option1.TryGetValue(out var value))
-{
-    Console.WriteLine(value); // Outputs: 1
-}
+string output = option.Reduce("fallback"); // if option whas None, the value fallback is used.
+var match = option.Match(
+    onSome: value => Console.WriteLine($"Some: {value}),
+    onNone: () => Console.WriteLine("None));
+)
 ```
 
 ---
 
-## Extension Methods
+## Extensions
 The `Toarnbeike.Optional.Extensions` namespace includes rich extensions for `Option<T>`:
 
 ### Available Extensions
@@ -95,17 +121,15 @@ The `Toarnbeike.Optional.Extensions` namespace includes rich extensions for `Opt
 | `AsOption()`		| `Option<T>`   | Convert from nullable						    |
 | `Map(...)`		| `Option<U>`   | Transforms the inner value 			        |
 | `Bind(...)`		| `Option<U>`   | Chain operations returning `Option<T>`        |
-| `Check(...)`		| `Option<T>`   | Filter by predicate					        |
-| `IsSomeAnd(...)`  | `bool`        | Check if value matches value or predicate     |
+| `Check(...)`		| `Option<T>`   | Filter by predicate, make `None` if false     |
 | `Match(...)`      | `U`           | Pattern match: Some/ None                     |
 | `Reduce(...)`		| `T`           | Fallback to a value if empty      		    |
-| `OrElse(...)`    	| `Option<T>`   | Return current option or fallback if `None`   |
 | `Tap(...)`		| `Option<T>`   | Execute side-effect on value				    |
 | `TapIfNone()`		| `Option<T>`   | Execute side-effect when empty                |
 
-All extensions include async overloads and `Task<Union<...>>` variants.
+All methods support `async` variants and operate seamlessly with `Task<Option<TValue>>`.
 
-For information per method, see the [Extensions README](docs/Extensions.md).
+For information per method, see the [Extensions docs](docs/Extensions.md).
 
 ---
 
@@ -123,9 +147,9 @@ The `Toarnbeike.Optional.Collections` namespace contains extension methods to wo
 | `FirstOrNone()`     | `Option<T>`       | Get first non None value in collection      |
 | `LastOrNone()`      | `Option<T>`       | Get last non None value in collection       |
 
-Many of these methods come with predicate overloads to add additional filters, similar to their Linq equivalence.
+Many of these methods come with predicate overloads to add additional filters, similar to their Linq equivalences.
 
-For information per method, see the [Collections README](docs/Collections.md).
+For information per method, see the [Collections docs](docs/Collections.md).
 
 ### Collections of T
 
@@ -138,89 +162,37 @@ In addition to extensions on `IEnumerable<Option<T>>`, the `Toarnbeike.Optional.
 | `SingleOrNone()`  | `Option<T>`   | Get the only instance or return Option.None           |
 
 All these methods also come with predicate overloads to add additional filters.
-These methods are also described in more detail in the [Collections README](docs/Collections.md).
+These methods are also described in more detail in the [Collections docs](docs/Collections.md).
 
 ---
 
 ## Linq query syntax
 
-Toarnbeike.Optional supports optional integration with [C# LINQ query syntax](https://learn.microsoft.com/en-us/dotnet/csharp/linq/get-started/write-linq-queries),
-making it easier to compose multiple `Option<T>` computations in a declarative style.
+Toarnbeike.Results supports C# LINQ query syntax for composing `Option<TValue>` pipelines using `from`, `select`, `let`, and `where`.
 
-### Why use LINQ Query Syntax?
-While method chaining works well for most scenarios, C#`s LINQ query syntax can make some workflows more expressive and readable; especially when you want to:
+This provides an alternative, declarative way to compose `Bind`, `Map`, and `Check` operations while preserving the same missing value propagation semantics.
 
-- Name intermediate options using `let`
-- Compose complex Option pipelines in a declarative way
-- Avoid deeply nested lambdas in `Bind` and `Map`
+`None` values are automatically propagated and short-circuit execution of the query.
 
-### Example:
-```csharp
-using Toarnbeike.Optional.Linq;
-
-var option =
-    from id in GetUserId()
-    from user in GetUserById(id)
-    let fullName = $"{user.FirstName} {user.LastName}"
-    select new UserDto(fullName, user.Email);
-```
-
-When comparing that with method chaining, the LINQ query syntax can be more readable, especially for complex workflows:
-```csharp
-var option = GetUserId()
-    .Bind(GetUserById)
-    .Map(user =>
-    {
-        var name = $"{user.FirstName} {user.LastName}";
-        return new UserDto(name, user.Email);
-    });
-```
-Which also works, but makes name only available inside the `Map` lambda.
-
----
-
-## Try Helpers
-
-Use `Option.Try(...)` to wrap exception-throwing code like parsing, config loading, etc.  
-Returns `Option.None` when an exception occurs (with optional filtering and logging).
-
-```csharp
-var result = Option.Try(() => int.Parse("123")); // Option.Some(123)
-var fallback = Option.Try(() => int.Parse("abc")); // Option.None
-
-// With optional filtering and logging
-var parsed = Option.Try(
-    () => int.Parse("abc"),
-    ex => ex is FormatException,
-    ex => logger.Warn(ex, "Invalid number")
-);
-```
+See the [LINQ extensions docs](docs/Linq.md) for details and examples.
 
 ---
 
 ## Test extensions 
 
-The `Toarnbeike.Optional.TestExtensions` namespace provides simple assertion methods to improve test readability for `Option<T>` instances.
-These methods are Test Framework Agnostic, as they throw a custom `AssertionFailedException`. The naming is inspired by [Shouldly](https://docs.shouldly.org/).
+The `Toarnbeike.Optional.TestExtensions` namespace provides simple test assertions for verifying `Option<TValue>` instances in unit tests.
 
 The following assertions are included:
 
 | Method                            | Description                                           |
 |-----------------------------------|-------------------------------------------------------|
 | `ShouldBeSome(...)`               | Asserts that the option is `Some`                     |
-| `ShouldBeSomeWithValue(...)`      | Asserts `Some` and compares value with expected.      |
-| `ShouldBeSomeThatMatches(...)`    | Asserts `Some` and applies a predicate to the value.  |
-| `ShouldBeSomeThatSatisfies(...)`  | Asserts `Some` and applies an additional assertion.   |
 | `ShouldBeNone(...)`               | Asserts that the option is `None.`                    |
+
+These methods are Test Framework Agnostic, as they throw a custom `AssertionFailedException`.
 
 ---
 
-## Why Options?
-Because nulls are dangerous and exceptions are control-flow.
-Using Option<T>:
-
-- Makes absence explicit
-- Forces handling at compile time
-- Composes beautifully in pipelines
-
-> Make illegal states unrepresentable.
+## Conclusion
+> Nulls are dangerous and exceptions are control-flow.
+> Options make illegal states unrepresentable.

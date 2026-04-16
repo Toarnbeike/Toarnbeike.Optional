@@ -184,7 +184,7 @@ public class CollectionExtensionsTests
     public void FirstOrNone_Should_ReturnFirstValue_WhenExists()
     {
         var first = _optionsWithValues.FirstOrNone();
-        first.ShouldBeSomeWithValue(1);
+        first.ShouldBeSome().ShouldBe(1);
     }
 
     [Test]
@@ -198,7 +198,7 @@ public class CollectionExtensionsTests
     public void FirstOrNone_Should_ReturnFirstValue_MatchingPredicate()
     {
         var first = _optionsWithValues.FirstOrNone(_greaterThenTwo);
-        first.ShouldBeSomeWithValue(4);
+        first.ShouldBeSome().ShouldBe(4);
     }
 
     [Test]
@@ -219,7 +219,7 @@ public class CollectionExtensionsTests
     public void LastOrNone_Should_ReturnLastValue_WhenExists()
     {
         var last = _optionsWithValues.LastOrNone();
-        last.ShouldBeSomeWithValue(4);
+        last.ShouldBeSome().ShouldBe(4);
     }
 
     [Test]
@@ -233,7 +233,7 @@ public class CollectionExtensionsTests
     public void LastOrNone_Should_ReturnLastValue_MatchingPredicate()
     {
         var last = _optionsWithValues.LastOrNone(_greaterThenTwo);
-        last.ShouldBeSomeWithValue(4);
+        last.ShouldBeSome().ShouldBe(4);
     }
 
     [Test]

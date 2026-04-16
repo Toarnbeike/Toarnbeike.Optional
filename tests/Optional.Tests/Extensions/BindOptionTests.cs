@@ -33,7 +33,7 @@ public class BindOptionTests
     public void Bind_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = _some.Bind(_selectHalf);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]
@@ -54,7 +54,7 @@ public class BindOptionTests
     public async Task BindAsync_Should_ReturnSome_WhenOptionIsSome_AndFuncReturnsSome()
     {
         var result = await _some.BindAsync(_selectHalfAsync);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]
@@ -75,7 +75,7 @@ public class BindOptionTests
     public async Task Bind_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.Bind(_selectHalf);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]
@@ -96,7 +96,7 @@ public class BindOptionTests
     public async Task BindAsync_Should_ReturnSome_WhenOptionTaskIsSome_AndFuncReturnsSome()
     {
         var result = await _someAsync.BindAsync(_selectHalfAsync);
-        result.ShouldBeSomeWithValue(0.5);
+        result.ShouldBeSome().ShouldBe(0.5);
     }
 
     [Test]

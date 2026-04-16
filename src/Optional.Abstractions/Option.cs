@@ -37,8 +37,9 @@ public readonly record struct Option<TValue>
     /// <param name="value">The value of the option.</param>
     public static Option<TValue> Some(TValue value)
     {
-        ArgumentNullException.ThrowIfNull(value, nameof(value));
-        return new Option<TValue>(value, true);
+        return value is not null 
+            ? new Option<TValue>(value, true) 
+            : throw new ArgumentNullException(nameof(value));
     }
 
     /// <summary>
@@ -60,8 +61,7 @@ public readonly record struct Option<TValue>
     /// Implicitly converts a an <see cref="Option{Types.None}"/> instance to an <see cref="Option{TValue}"/> instance.
     /// </summary>
     /// <remarks>This operator allows seamless conversion from <see cref="Option{Types.None}"/> to <see cref="Option{TValue}"/>.
-    /// It is useful for creating an <see cref="Option{TValue}"/> from <see cref="Option.None"/> without providing a <typeparamref name="TValue"/></remarks>
-    /// <param name="value">The value to be wrapped in an <see cref="Option{TValue}"/>. Cannot be null.</param>
+    /// It is useful for creating an <see cref="Option{TValue}"/> from <c>Option.None</c> without providing a <typeparamref name="TValue"/></remarks>
     public static implicit operator Option<TValue>(Option<Types.None> _) => _none;
 
     /// <summary>
@@ -96,8 +96,8 @@ public readonly record struct Option<TValue>
     /// Determines whether the current <see cref="Option{TValue}"/> contains a value equal to the specified value.
     /// </summary>
     /// <param name="other">The value to compare against the option's inner value.</param>
-    /// <returns><see langword="true"/> if the option has a value and it equals <paramref name="other"/>; otherwise, <see langword="false"/>.</returns>
-    public bool EqualValue(TValue other) => HasValue && EqualityComparer<TValue>.Default.Equals(_value, other);
+    /// <returns><see langword="true"/> if the option has a value and equals <paramref name="other"/>; otherwise, <see langword="false"/>.</returns>
+    public bool EqualValue(TValue other) => HasValue && EqualityComparer<TValue>.Default.Equals(_value!, other);
 
     /// <summary>
     /// Value for the debugger display, which shows the value if present or a placeholder if not.
