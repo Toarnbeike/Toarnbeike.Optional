@@ -1,8 +1,8 @@
 # Toarnbeike.Options.Extensions 
 
-This namespace provides extension methods for working with Option types, enabling functional programming patterns such as mapping, binding and side effects. 
+This namespace provides extension methods for working with `Option` types, enabling functional programming patterns such as mapping, binding and side effects. 
 
-These extensions are inspired by functional programming paradigms and are designed to work seamlessly with the immutable, allocation-free Option types provided by the Toarnbeike.Optional library. 
+These extensions are inspired by functional programming paradigms and are designed to work seamlessly with the immutable, allocation-free `Option` types provided by the `Toarnbeike.Optional` library. 
 
 --- 
 
@@ -17,10 +17,8 @@ These extensions are inspired by functional programming paradigms and are design
 | [`Check(...)`](#check)		 | `Option<T>`   | Filter by predicate					         |
 | [`Match(...)`](#match)	     | `U`           | Pattern match: Some/ None                     |
 | [`Reduce(...)`](#reduce)	     | `T`           | Fallback to a value if empty      		     |
-| [`OrElse(...)`](#orelse)	     | `Option<T>`   | Return current option or fallback if `None`   |
 | [`Tap(...)`](#tap)			 | `Option<T>`   | Execute side-effect on value				     |
 | [`TapIfNone()`](#tapifnone)	 | `Option<T>`   | Execute side-effect when empty                |
-| [`IsSomeAnd(...)`](#issomeand) | `bool`        | Check if value matches value or predicate     |
 
 ### Choosing the right method
 
@@ -30,10 +28,8 @@ These extensions are inspired by functional programming paradigms and are design
 - Use [`Bind`](#bind) when transforming the value of an Option, to a result that can also be an Option itself.
 - Use [`Check`](#check) to verify if a condition is true for the given value, and return Option.None if it is not.
 - Use [`Reduce`](#reduce) to finish using the Option and return the value, or an alternative if the value was `None`.
-- Use [`OrElse`](#orelse) to replace a `None` with an alternative value, but keep the result as an `Option`.
 - Use [`Tap`](#tap) for side effects on the value, while retaining the option for further chaining.
 - Use [`TapIfNone`](#tapifnone) for side effects if the value is `None`, while retaining the option for further chaining.
-- Use [`IsSomeAnd`](#issomeand) to check if a condition is true or false.
  
 --- 
 
@@ -150,20 +146,6 @@ Overloads are available for an async reduce `Task` and `Task<Option<T>>` version
 
 --- 
 
-## OrElse
-
-The `OrElse` extension method allows you to substitute a value if none is present. Contrary to `Reduce`, the result is still an `Option`.
-`OrElse` is a chaining operation: it returns an `Option` that allows for further chaining.
-
-```csharp
-Option<User> user = GetById(123);
-Option<string> name = user.Map(value => $"{value.FirstName} {value.LastName}").OrElse("User not found");
-```
-
-Overloads are available for an async OrElse `Task` and `Task<Option<T>>` versions. 
-
----
-
 ## Tap
 
 The `Tap` extension method allows to perform a side effect on the `Option<T>`, while returning the original `Option`.
@@ -186,20 +168,6 @@ The `TapIfNone` extension method allows to perform a side effect on the `Option<
 ```csharp
 Option<User> user = GetById(123)
 	.TapIfNone(() => logger.LogWarning("User with Id 123 not found."));
-```
-
-Overloads are available for an async side effects and `Task<Option<T>>` versions. 
-
----
-
-## IsSomeAnd
-
-The `IsSomeAnd` extension methods allow for checking a certain condition on an `Option<T>`. If the option is `None`, the result is always false. 
-Otherwise, it checks if the provided predicate is true for the contained value.
-
-``` csharp
-Option<User> user = GetById(123);
-bool isActive = user.IsSomeAnd(value => value.Status == Status.Active);
 ```
 
 Overloads are available for an async side effects and `Task<Option<T>>` versions. 

@@ -4,7 +4,7 @@
 
 # Toarnbeike.Optional
 
-This package provides a **lightweight and expressive [Option (Maybe) monad](https://en.wikipedia.org/wiki/Option_type) for explicit handling of missing values in .NET.  
+This package provides a **lightweight and expressive [Option (Maybe) monad](https://en.wikipedia.org/wiki/Option_type)** for explicit handling of missing values in .NET.  
 
 It introduces **`Option<TValue>`** type, inspired by functional programming and discriminated unions, 
 while remaining idiomatic to the .NET exosystem.
@@ -29,7 +29,6 @@ It improves code clarity and safety by making the **absence of a value explicit*
 1. [Collections](#collections)
 1. [Linq query syntax](#linq-query-syntax)
 1. [Test extensions](#test-extensions)
-1. [Why Options?](#why-options)
 1. [Conclusion](#conclusion)
 
 ---
@@ -93,8 +92,8 @@ var none2 = Option<int>.None();
 ### Transformations
 
 Options can be transformed on value using the many provided extension methods.
-For an overview of the available methods, see [Extension methods](#extension-methods).
-For a detailed description of each of the methods, see [Extension documentation](docs/Extensions.md).
+For an overview of the available methods, see [Extension methods](#extensions).
+For a detailed description of each of the methods, see [Extension docs](docs/Extensions.md).
 
 ### Consumption
 
@@ -112,7 +111,7 @@ var match = option.Match(
 
 ---
 
-## Extension Methods
+## Extensions
 The `Toarnbeike.Optional.Extensions` namespace includes rich extensions for `Option<T>`:
 
 ### Available Extensions
@@ -130,7 +129,7 @@ The `Toarnbeike.Optional.Extensions` namespace includes rich extensions for `Opt
 
 All methods support `async` variants and operate seamlessly with `Task<Option<TValue>>`.
 
-For information per method, see the [Extensions README](docs/Extensions.md).
+For information per method, see the [Extensions docs](docs/Extensions.md).
 
 ---
 
@@ -150,7 +149,7 @@ The `Toarnbeike.Optional.Collections` namespace contains extension methods to wo
 
 Many of these methods come with predicate overloads to add additional filters, similar to their Linq equivalences.
 
-For information per method, see the [Collections README](docs/Collections.md).
+For information per method, see the [Collections docs](docs/Collections.md).
 
 ### Collections of T
 
@@ -163,7 +162,7 @@ In addition to extensions on `IEnumerable<Option<T>>`, the `Toarnbeike.Optional.
 | `SingleOrNone()`  | `Option<T>`   | Get the only instance or return Option.None           |
 
 All these methods also come with predicate overloads to add additional filters.
-These methods are also described in more detail in the [Collections README](docs/Collections.md).
+These methods are also described in more detail in the [Collections docs](docs/Collections.md).
 
 ---
 
