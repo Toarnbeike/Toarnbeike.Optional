@@ -55,9 +55,9 @@ Console.WriteLine($"Missing was replaced by: {newMissing.Reduce("Hello")); // Mi
 ```
 
 Key properties of working with Unions:
-- `null` values and nullable notition is replaced with `Option`.
-- Values are never consumed directly, but always using a `Reduce()` to provide an alternative for a missing value.
-- Mapping, binding, etc. leafs the value in an `Option` state, and missing values are still `Option.None`.
+- `null` values and nullable notation is replaced with `Option`.
+- Values are never consumed directly, but always using `Reduce()` or `Match()` to provide an alternative for a missing value.
+- Mapping, binding, etc. modifies the value in an `Option` state, but missing values remain `Option.None`.
 
 ---
 
