@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] - 2026-05-10
+
+### Removed
+- Extensions.IsSomeAnd. Obsolete since 2.0.0 (#19)
+- Extensions.OrElse. Obsolete since 2.0.0 (#19)
+- Option.Try. Obsolete since 2.0.0 (#19)
+- TestExtensions.ShouldBeSomeWithValue(). Obsolete since 2.0.0 (#19)
+- TestExtensions.ShouldBeSomeThatMatches(). Obsolete since 2.0.0 (#19)
+- TestExtensions.ShouldBeSomeThatSatisfies(). Obsolete since 2.0.0 (#19)
+
+### Fixed
+- Bug in `AsOption()` on structs where result would be `Option<Nullable<T>>` rather than `Option<T>` (#20)
+
 ## [2.0.0] - 2026-04-16
 
 ### Removed

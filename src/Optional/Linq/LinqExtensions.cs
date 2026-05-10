@@ -8,29 +8,26 @@ namespace Toarnbeike.Optional.Linq;
 /// </summary>
 public static class OptionLinqExtensions
 {
-    /// <summary>
-    /// Maps the value of the option to a new value if present.
-    /// </summary>
-    public static Option<TResult> Select<TSource, TResult>(
-        this Option<TSource> source,
-        Func<TSource, TResult> selector) =>
-        source.Map(selector);
+    extension<TSource>(Option<TSource> source)
+    {
+        /// <summary>
+        /// Maps the value of the option to a new value if present.
+        /// </summary>
+        public Option<TResult> Select<TResult>(Func<TSource, TResult> selector) =>
+            source.Map(selector);
 
-    /// <summary>
-    /// Overload for SelectMany to support projection in query expressions.
-    /// </summary>
-    public static Option<TResult> SelectMany<TSource, TIntermediate, TResult>(
-        this Option<TSource> source,
-        Func<TSource, Option<TIntermediate>> bind,
-        Func<TSource, TIntermediate, TResult> project) =>
-        source.Bind(s => bind(s).Map(i => project(s, i)));
+        /// <summary>
+        /// Overload for SelectMany to support projection in query expressions.
+        /// </summary>
+        public Option<TResult> SelectMany<TIntermediate, TResult>(Func<TSource, Option<TIntermediate>> bind,
+            Func<TSource, TIntermediate, TResult> project) =>
+            source.Bind(s => bind(s).Map(i => project(s, i)));
 
-    /// <summary>
-    /// Filters the option based on a predicate.
-    /// Equivalent to Check in your API.
-    /// </summary>
-    public static Option<TSource> Where<TSource>(
-        this Option<TSource> source,
-        Func<TSource, bool> predicate) =>
-        source.Check(predicate);
+        /// <summary>
+        /// Filters the option based on a predicate.
+        /// Equivalent to Check in your API.
+        /// </summary>
+        public Option<TSource> Where(Func<TSource, bool> predicate) =>
+            source.Check(predicate);
+    }
 }

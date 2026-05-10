@@ -12,7 +12,7 @@ public static class CollectionExtensions
         /// Returns all elements of the sequence that have a value.
         /// </summary>
         public IEnumerable<TValue> Values() =>
-            source.WhereValues(value => true);
+            source.WhereValues(_ => true);
 
         /// <summary>
         /// Returns all elements of the sequence that have a value.

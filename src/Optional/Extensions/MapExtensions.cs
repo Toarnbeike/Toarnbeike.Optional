@@ -13,10 +13,10 @@ public static class MapExtensions
         /// <typeparam name="TOut">The type of the resulting optional value.</typeparam>
         /// <param name="selector">The function to convert from <typeparamref name="TIn"/> to <typeparamref name="TOut"/></param>
         /// <returns>An option of type <typeparamref name="TOut"/> that has a value depending on the original value and the result of the selector.</returns>
-        public Option<TOut> Map<TOut>(Func<TIn, TOut?> selector)
+        public Option<TOut> Map<TOut>(Func<TIn, TOut> selector)
         {
             ArgumentNullException.ThrowIfNull(selector);
-            return option.TryGetValue(out var value) ? selector(value).AsOption() : Option.None;
+            return option.TryGetValue(out var value) ? selector(value) : Option.None;
         }
 
         /// <summary>
@@ -26,10 +26,10 @@ public static class MapExtensions
         /// <typeparam name="TOut">The type of the resulting optional value.</typeparam>
         /// <param name="selectorTask">The function to convert from <typeparamref name="TIn"/> to <typeparamref name="TOut"/></param>
         /// <returns>An option of type <typeparamref name="TOut"/> that has a value depending on the original value and the result of the selector.</returns>
-        public async Task<Option<TOut>> MapAsync<TOut>(Func<TIn, Task<TOut?>> selectorTask)
+        public async Task<Option<TOut>> MapAsync<TOut>(Func<TIn, Task<TOut>> selectorTask)
         {
             ArgumentNullException.ThrowIfNull(selectorTask);
-            return option.TryGetValue(out var value) ? await selectorTask(value).AsOption() : Option.None;
+            return option.TryGetValue(out var value) ? await selectorTask(value) : Option.None;
         }
     }
 
@@ -44,7 +44,7 @@ public static class MapExtensions
         /// <typeparam name="TOut">The type of the resulting optional value.</typeparam>
         /// <param name="selector">The function to convert from <typeparamref name="TIn"/> to <typeparamref name="TOut"/></param>
         /// <returns>A <see cref="Task"/>{<see cref="Option"/>{<typeparamref name="TOut"/>}} that has a value depending on the original value and the result of the selector.</returns>
-        public async Task<Option<TOut>> Map<TOut>(Func<TIn, TOut?> selector)
+        public async Task<Option<TOut>> Map<TOut>(Func<TIn, TOut> selector)
         {
             var option = await optionTask.ConfigureAwait(false);
             return option.Map(selector);
@@ -57,7 +57,7 @@ public static class MapExtensions
         /// <typeparam name="TOut">The type of the resulting optional value.</typeparam>
         /// <param name="selectorTask">The function to convert from <typeparamref name="TIn"/> to <typeparamref name="TOut"/></param>
         /// <returns>An option of type <typeparamref name="TOut"/> that has a value depending on the original value and the result of the selector.</returns>
-        public async Task<Option<TOut>> MapAsync<TOut>(Func<TIn, Task<TOut?>> selectorTask)
+        public async Task<Option<TOut>> MapAsync<TOut>(Func<TIn, Task<TOut>> selectorTask)
         {
             var option = await optionTask.ConfigureAwait(false);
             return await option.MapAsync(selectorTask).ConfigureAwait(false);
