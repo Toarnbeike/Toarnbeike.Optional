@@ -28,7 +28,7 @@ public readonly record struct Option<TValue>
     /// <summary>
     /// Singleton instance of <see cref="Option{TValue}"/> representing the absence of a value.
     /// </summary>
-    private static readonly Option<TValue> _none = new(default, false);
+    private static readonly Option<TValue> NoneInstance = new(default, false);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Option{TValue}"/> class with the provided value.
@@ -46,7 +46,7 @@ public readonly record struct Option<TValue>
     /// Initializes a new instance of the <see cref="Option{TValue}"/> class with no value.
     /// </summary>
     /// <returns>An <see cref="Option{TValue}"/> instance with no value.</returns>
-    public static Option<TValue> None() => _none;
+    public static Option<TValue> None() => NoneInstance;
 
     /// <summary>
     /// Implicitly converts a value of type <typeparamref name="TValue"/> to an <see cref="Option{TValue}"/> instance.
@@ -58,11 +58,11 @@ public readonly record struct Option<TValue>
     public static implicit operator Option<TValue>(TValue value) => Some(value);
 
     /// <summary>
-    /// Implicitly converts a an <see cref="Option{Types.None}"/> instance to an <see cref="Option{TValue}"/> instance.
+    /// Implicitly converts a an <see cref="Option{None}"/> instance to an <see cref="Option{TValue}"/> instance.
     /// </summary>
-    /// <remarks>This operator allows seamless conversion from <see cref="Option{Types.None}"/> to <see cref="Option{TValue}"/>.
+    /// <remarks>This operator allows seamless conversion from <see cref="Option{None}"/> to <see cref="Option{TValue}"/>.
     /// It is useful for creating an <see cref="Option{TValue}"/> from <c>Option.None</c> without providing a <typeparamref name="TValue"/></remarks>
-    public static implicit operator Option<TValue>(Option<Types.None> _) => _none;
+    public static implicit operator Option<TValue>(Option<Types.None> _) => NoneInstance;
 
     /// <summary>
     /// Private constructor such that the option can only be created through the static methods.
